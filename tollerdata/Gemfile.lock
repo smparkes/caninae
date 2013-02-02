@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    awesome_print (1.1.0)
+    multi_json (1.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  multi_json
