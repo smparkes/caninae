@@ -11,7 +11,15 @@ module ApplicationHelper
     end
   end
 
+  def readable_event_type event
+    case event.event_type
+    when nil;
+    else; event.event_type.capitalize
+    end
+  end
+
   def readable_date event
+    return nil if event.nil?
     string = []
     if event.month
       string << Date::MONTHNAMES[event.month]

@@ -24,13 +24,22 @@
 %p
   %b Sex:
   = @animal.sex
-%p
-  %b Litter:
-  = @animal.litter_id
-%p
-  %b Address:
-  = @animal.address_id
-%div
+
+- if !@animal.events.empty?
+  %p
+    %b Events:
+    %ul
+      = render @animal.events
+
+/
+  %p
+    %b Litter:
+    = @animal.litter_id
+/
+  %p
+    %b Address:
+    = @animal.address_id
+/
   %p
     %b Import json:
     = @animal.import_json

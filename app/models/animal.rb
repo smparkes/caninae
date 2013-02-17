@@ -1,6 +1,6 @@
 class Animal < ActiveRecord::Base
-  has_one :mother, class_name:Animal
-  has_one :father, class_name:Animal
+  belongs_to :mother, class_name:Animal
+  belongs_to :father, class_name:Animal
   has_one :birth, as:"entity", class_name:Event, conditions:['event_type = ?', :birth]
   has_one :death, as:"entity", class_name:Event, conditions:['event_type = ?', :death]
   has_many :offspring
