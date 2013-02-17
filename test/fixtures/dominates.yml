@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  dominator_id: 1
+  dominated_id: 1
+
+two:
+  dominator_id: 1
+  dominated_id: 1

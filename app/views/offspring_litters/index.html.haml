@@ -1,0 +1,21 @@
+%h1 Listing offspring_litters
+
+%table
+  %tr
+    %th Litter
+    %th Offspring
+    %th
+    %th
+    %th
+
+  - @offspring_litters.each do |offspring_litter|
+    %tr
+      %td= offspring_litter.litter_id
+      %td= offspring_litter.offspring_id
+      %td= link_to 'Show', offspring_litter
+      %td= link_to 'Edit', edit_offspring_litter_path(offspring_litter)
+      %td= link_to 'Destroy', offspring_litter, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Offspring litter', new_offspring_litter_path

@@ -1,0 +1,21 @@
+%h1 Listing person_kennels
+
+%table
+  %tr
+    %th Person
+    %th Kennel
+    %th
+    %th
+    %th
+
+  - @person_kennels.each do |person_kennel|
+    %tr
+      %td= person_kennel.person_id
+      %td= person_kennel.kennel_id
+      %td= link_to 'Show', person_kennel
+      %td= link_to 'Edit', edit_person_kennel_path(person_kennel)
+      %td= link_to 'Destroy', person_kennel, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Person kennel', new_person_kennel_path

@@ -10,92 +10,98 @@ rails g scaffold location \
  resolution:float \
 
 rails g scaffold event \
- entity_id: int \
+ entity_id: integer \
  entity_type: string \
  type:string \
  date:date \
  time:time \
- location_id:location \
+ location_id:integer \
+
+rails g scaffold animal_parent \
+ offspring_id:integer \
+ parent_id:integer \
+ mother:boolean
 
 rails g scaffold animal \
  name:string \
  call_name:string \
- mother_id:int \
- father_id:int \
+ mother_id:integer \
+ father_id:integer \
  sex:string \
- litter_id:int \
- address_id:int \
- birth_id:int \
- death_id:int \
+ litter_id:integer \
+ address_id:integer \
+ birth_id:integer \
+ death_id:integer \
+ import_json:string \
 
 rails g scaffold clearance \
- animal_id:int \
+ animal_id:integer \
 
 rails g scaffold animal_owner \
- animal_id:int \
- owner_id:int \
+ animal_id:integer \
+ owner_id:integer \
 
 rails g scaffold animal_breeder \
- animal_id:int \
- breeder_id:int \
+ animal_id:integer \
+ breeder_id:integer \
 
 rails g scaffold animal_kennel \
- animal_id:int \
- kennel_id:int \
+ animal_id:integer \
+ kennel_id:integer \
 
 rails g scaffold registration \
- registry_id:int \
- animal_id:int \
- registration_number:int \
+ registry_id:integer \
+ animal_id:integer \
+ registration_number:integer \
  date:date \
 
 rails g scaffold person \
  first_name:string \
  last_name:string \
- address_id:int \
+ address_id:integer \
     
 rails g scaffold kennel \
  name:string \
- address_id:int \
+ address_id:integer \
 
 rails g scaffold person_kennel \
- person_id:int \
- kennel_id:int \
+ person_id:integer \
+ kennel_id:integer \
 
 rails g scaffold kennel_litter \
- kennel_id:int \
- litter_id:int \
+ kennel_id:integer \
+ litter_id:integer \
 
 rails g scaffold litter \
- mother_id:int \
- father_id:int \
- event_id:int \
+ mother_id:integer \
+ father_id:integer \
+ event_id:integer \
  name:string \
 
-rails g scaffold pup_litter \
- litter_id:int \
- offspring_id:int \
+rails g scaffold offspring_litter \
+ litter_id:integer \
+ offspring_id:integer \
 
 rails g scaffold certification \
  
 rails g scaffold achievement \
- title_id:int \
- event_id:int \
+ title_id:integer \
+ event_id:integer \
 
 rails g scaffold title \
- registry_id:int \
+ registry_id:integer \
  name:string \
  abbreviation:string \
  prefix:boolean \
 
 rails g scaffold dominates \
- dominator_id:int \
- dominated_id:int \
+ dominator_id:integer \
+ dominated_id:integer \
 
 rails g scaffold preceeds \
- first:int \
- second:int \
+ first:integer \
+ second:integer \
 
 rails g scaffold succeeds \
- first:int \
- second:int \
+ first:integer \
+ second:integer \

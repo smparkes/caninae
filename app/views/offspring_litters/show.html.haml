@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Litter:
+  = @offspring_litter.litter_id
+%p
+  %b Offspring:
+  = @offspring_litter.offspring_id
+
+= link_to 'Edit', edit_offspring_litter_path(@offspring_litter)
+\|
+= link_to 'Back', offspring_litters_path

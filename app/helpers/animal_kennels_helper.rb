@@ -1,0 +1,2 @@
+module AnimalKennelsHelper
+end

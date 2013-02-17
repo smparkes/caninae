@@ -1,0 +1,21 @@
+%h1 Listing kennels
+
+%table
+  %tr
+    %th Name
+    %th Address
+    %th
+    %th
+    %th
+
+  - @kennels.each do |kennel|
+    %tr
+      %td= kennel.name
+      %td= kennel.address_id
+      %td= link_to 'Show', kennel
+      %td= link_to 'Edit', edit_kennel_path(kennel)
+      %td= link_to 'Destroy', kennel, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Kennel', new_kennel_path

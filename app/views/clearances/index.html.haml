@@ -1,0 +1,19 @@
+%h1 Listing clearances
+
+%table
+  %tr
+    %th Animal
+    %th
+    %th
+    %th
+
+  - @clearances.each do |clearance|
+    %tr
+      %td= clearance.animal_id
+      %td= link_to 'Show', clearance
+      %td= link_to 'Edit', edit_clearance_path(clearance)
+      %td= link_to 'Destroy', clearance, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Clearance', new_clearance_path

@@ -1,0 +1,37 @@
+%h1 Listing animals
+
+%table
+  %tr
+    %th Name
+    %th Call name
+    %th Mother
+    %th Father
+    %th Sex
+    %th Litter
+    %th Address
+    %th Birth
+    %th Death
+    %th Import json
+    %th
+    %th
+    %th
+
+  - @animals.each do |animal|
+    %tr
+      %td= animal.name
+      %td= animal.call_name
+      %td= animal.mother_id
+      %td= animal.father_id
+      %td= animal.sex
+      %td= animal.litter_id
+      %td= animal.address_id
+      %td= animal.birth_id
+      %td= animal.death_id
+      %td= animal.import_json
+      %td= link_to 'Show', animal
+      %td= link_to 'Edit', edit_animal_path(animal)
+      %td= link_to 'Destroy', animal, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Animal', new_animal_path

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Mother:
+  = @litter.mother_id
+%p
+  %b Father:
+  = @litter.father_id
+%p
+  %b Event:
+  = @litter.event_id
+%p
+  %b Name:
+  = @litter.name
+
+= link_to 'Edit', edit_litter_path(@litter)
+\|
+= link_to 'Back', litters_path

@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Entity:
+  = @event.entity_id
+%p
+  %b Integer:
+  = @event.integer
+%p
+  %b Entity type:
+  = @event.entity_type
+%p
+  %b String:
+  = @event.string
+%p
+  %b Type:
+  = @event.type
+%p
+  %b Date:
+  = @event.date
+%p
+  %b Time:
+  = @event.time
+%p
+  %b Location:
+  = @event.location_id
+
+= link_to 'Edit', edit_event_path(@event)
+\|
+= link_to 'Back', events_path

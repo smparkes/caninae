@@ -1,0 +1,22 @@
+= form_for @registration do |f|
+  - if @registration.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@registration.errors.count, "error")} prohibited this registration from being saved:"
+      %ul
+        - @registration.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :registry_id
+    = f.number_field :registry_id
+  .field
+    = f.label :animal_id
+    = f.number_field :animal_id
+  .field
+    = f.label :registration_number
+    = f.number_field :registration_number
+  .field
+    = f.label :date
+    = f.date_select :date
+  .actions
+    = f.submit 'Save'

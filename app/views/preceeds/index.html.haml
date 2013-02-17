@@ -1,0 +1,21 @@
+%h1 Listing preceeds
+
+%table
+  %tr
+    %th First
+    %th Second
+    %th
+    %th
+    %th
+
+  - @preceeds.each do |preceed|
+    %tr
+      %td= preceed.first
+      %td= preceed.second
+      %td= link_to 'Show', preceed
+      %td= link_to 'Edit', edit_preceed_path(preceed)
+      %td= link_to 'Destroy', preceed, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Preceed', new_preceed_path

@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b First:
+  = @preceed.first
+%p
+  %b Second:
+  = @preceed.second
+
+= link_to 'Edit', edit_preceed_path(@preceed)
+\|
+= link_to 'Back', preceeds_path

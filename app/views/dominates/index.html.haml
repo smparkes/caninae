@@ -1,0 +1,21 @@
+%h1 Listing dominates
+
+%table
+  %tr
+    %th Dominator
+    %th Dominated
+    %th
+    %th
+    %th
+
+  - @dominates.each do |dominate|
+    %tr
+      %td= dominate.dominator_id
+      %td= dominate.dominated_id
+      %td= link_to 'Show', dominate
+      %td= link_to 'Edit', edit_dominate_path(dominate)
+      %td= link_to 'Destroy', dominate, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Dominate', new_dominate_path

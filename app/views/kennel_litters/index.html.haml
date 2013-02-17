@@ -1,0 +1,21 @@
+%h1 Listing kennel_litters
+
+%table
+  %tr
+    %th Kennel
+    %th Litter
+    %th
+    %th
+    %th
+
+  - @kennel_litters.each do |kennel_litter|
+    %tr
+      %td= kennel_litter.kennel_id
+      %td= kennel_litter.litter_id
+      %td= link_to 'Show', kennel_litter
+      %td= link_to 'Edit', edit_kennel_litter_path(kennel_litter)
+      %td= link_to 'Destroy', kennel_litter, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Kennel litter', new_kennel_litter_path

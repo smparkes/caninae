@@ -1,4 +1,64 @@
 Canidae::Application.routes.draw do
+  resources :people
+
+
+  resources :animal_kennels
+
+
+  resources :animal_owners
+
+
+  resources :succeeds
+
+
+  resources :preceeds
+
+
+  resources :dominates
+
+
+  resources :titles
+
+
+  resources :achievements
+
+
+  resources :certifications
+
+
+  resources :offspring_litters
+
+
+  resources :litters
+
+
+  resources :kennel_litters
+
+
+  resources :person_kennels
+
+
+  resources :kennels
+
+
+  resources :registrations
+
+
+  resources :animal_breeders
+
+
+  resources :clearances
+
+
+  resources :animals
+
+
+  resources :events
+
+
+  resources :locations
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

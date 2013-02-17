@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  call_name: MyString
+  mother_id: 1
+  father_id: 1
+  sex: MyString
+  litter_id: 1
+  address_id: 1
+  birth_id: 1
+  death_id: 1
+  import_json: MyString
+
+two:
+  name: MyString
+  call_name: MyString
+  mother_id: 1
+  father_id: 1
+  sex: MyString
+  litter_id: 1
+  address_id: 1
+  birth_id: 1
+  death_id: 1
+  import_json: MyString

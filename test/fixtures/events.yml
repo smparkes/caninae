@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  entity_id: MyString
+  integer: MyString
+  entity_type: MyString
+  string: MyString
+  type: 
+  date: 2013-02-03
+  time: 2013-02-03 14:44:40
+  location_id: 1
+
+two:
+  entity_id: MyString
+  integer: MyString
+  entity_type: MyString
+  string: MyString
+  type: 
+  date: 2013-02-03
+  time: 2013-02-03 14:44:40
+  location_id: 1

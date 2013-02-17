@@ -1,0 +1,21 @@
+%h1 Listing succeeds
+
+%table
+  %tr
+    %th First
+    %th Second
+    %th
+    %th
+    %th
+
+  - @succeeds.each do |succeed|
+    %tr
+      %td= succeed.first
+      %td= succeed.second
+      %td= link_to 'Show', succeed
+      %td= link_to 'Edit', edit_succeed_path(succeed)
+      %td= link_to 'Destroy', succeed, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Succeed', new_succeed_path

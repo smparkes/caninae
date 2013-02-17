@@ -1,0 +1,16 @@
+= form_for @preceed do |f|
+  - if @preceed.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@preceed.errors.count, "error")} prohibited this preceed from being saved:"
+      %ul
+        - @preceed.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :first
+    = f.number_field :first
+  .field
+    = f.label :second
+    = f.number_field :second
+  .actions
+    = f.submit 'Save'

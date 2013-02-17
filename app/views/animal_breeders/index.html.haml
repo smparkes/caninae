@@ -1,0 +1,21 @@
+%h1 Listing animal_breeders
+
+%table
+  %tr
+    %th Animal
+    %th Breeder
+    %th
+    %th
+    %th
+
+  - @animal_breeders.each do |animal_breeder|
+    %tr
+      %td= animal_breeder.animal_id
+      %td= animal_breeder.breeder_id
+      %td= link_to 'Show', animal_breeder
+      %td= link_to 'Edit', edit_animal_breeder_path(animal_breeder)
+      %td= link_to 'Destroy', animal_breeder, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Animal breeder', new_animal_breeder_path

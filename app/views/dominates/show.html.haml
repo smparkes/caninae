@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Dominator:
+  = @dominate.dominator_id
+%p
+  %b Dominated:
+  = @dominate.dominated_id
+
+= link_to 'Edit', edit_dominate_path(@dominate)
+\|
+= link_to 'Back', dominates_path

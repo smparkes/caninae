@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  registry_id: 1
+  animal_id: 1
+  registration_number: 1
+  date: 2013-02-03
+
+two:
+  registry_id: 1
+  animal_id: 1
+  registration_number: 1
+  date: 2013-02-03

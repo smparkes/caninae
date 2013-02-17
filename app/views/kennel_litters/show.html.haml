@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Kennel:
+  = @kennel_litter.kennel_id
+%p
+  %b Litter:
+  = @kennel_litter.litter_id
+
+= link_to 'Edit', edit_kennel_litter_path(@kennel_litter)
+\|
+= link_to 'Back', kennel_litters_path

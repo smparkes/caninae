@@ -1,0 +1,25 @@
+%h1 Listing litters
+
+%table
+  %tr
+    %th Mother
+    %th Father
+    %th Event
+    %th Name
+    %th
+    %th
+    %th
+
+  - @litters.each do |litter|
+    %tr
+      %td= litter.mother_id
+      %td= litter.father_id
+      %td= litter.event_id
+      %td= litter.name
+      %td= link_to 'Show', litter
+      %td= link_to 'Edit', edit_litter_path(litter)
+      %td= link_to 'Destroy', litter, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Litter', new_litter_path

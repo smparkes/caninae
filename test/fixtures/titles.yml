@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  registry_id: 1
+  name: MyString
+  abbreviation: MyString
+  prefix: false
+
+two:
+  registry_id: 1
+  name: MyString
+  abbreviation: MyString
+  prefix: false

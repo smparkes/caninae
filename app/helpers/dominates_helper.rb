@@ -1,0 +1,2 @@
+module DominatesHelper
+end

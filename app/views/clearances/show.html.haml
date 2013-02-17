@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Animal:
+  = @clearance.animal_id
+
+= link_to 'Edit', edit_clearance_path(@clearance)
+\|
+= link_to 'Back', clearances_path

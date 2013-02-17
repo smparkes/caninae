@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Animal:
+  = @animal_kennel.animal_id
+%p
+  %b Kennel:
+  = @animal_kennel.kennel_id
+
+= link_to 'Edit', edit_animal_kennel_path(@animal_kennel)
+\|
+= link_to 'Back', animal_kennels_path

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Registry:
+  = @registration.registry_id
+%p
+  %b Animal:
+  = @registration.animal_id
+%p
+  %b Registration number:
+  = @registration.registration_number
+%p
+  %b Date:
+  = @registration.date
+
+= link_to 'Edit', edit_registration_path(@registration)
+\|
+= link_to 'Back', registrations_path

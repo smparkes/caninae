@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  mother_id: 1
+  father_id: 1
+  event_id: 1
+  name: MyString
+
+two:
+  mother_id: 1
+  father_id: 1
+  event_id: 1
+  name: MyString

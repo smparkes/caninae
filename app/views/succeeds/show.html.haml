@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b First:
+  = @succeed.first
+%p
+  %b Second:
+  = @succeed.second
+
+= link_to 'Edit', edit_succeed_path(@succeed)
+\|
+= link_to 'Back', succeeds_path

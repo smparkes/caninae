@@ -30,7 +30,6 @@ end
 
 File.open("tollermaster.csv", "r:iso-8859-1") do |f|
   header = f.readline.split(',').map(&:chomp)
-  dog = {}
   f.each do |line|
     values = line.split(",")
     tollerdata = {}
@@ -39,10 +38,11 @@ File.open("tollermaster.csv", "r:iso-8859-1") do |f|
         values[i].chomp
     end
     begin
-      dog[:tollerdata] = MultiJson.dump(tollerdata)
+      dog = {}
+      dog[:import_json] = MultiJson.dump(tollerdata)
       dog[:id] = tollerdata["ID"].to_i
-      dog[:sire_id] = tollerdata["SIREID"].to_i
-      dog[:dam_id] = tollerdata["DAMID"].to_i
+      dog[:father_id] = tollerdata["SIREID"].to_i
+      dog[:mother_id] = tollerdata["DAMID"].to_i
       squish dog, "name", tollerdata["NAME"]
       squish dog, "call_name", tollerdata["CALLNAME"]
       sex dog, tollerdata

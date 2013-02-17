@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  litter_id: 1
+  offspring_id: 1
+
+two:
+  litter_id: 1
+  offspring_id: 1
