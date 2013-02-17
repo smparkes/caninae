@@ -12,7 +12,7 @@ rails g scaffold location \
 rails g scaffold event \
  entity_id: integer \
  entity_type: string \
- type:string \
+ event_type:string \
  date:date \
  time:time \
  location_id:integer \
@@ -30,8 +30,6 @@ rails g scaffold animal \
  sex:string \
  litter_id:integer \
  address_id:integer \
- birth_id:integer \
- death_id:integer \
  import_json:string \
 
 rails g scaffold clearance \

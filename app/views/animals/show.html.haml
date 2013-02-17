@@ -1,17 +1,26 @@
 %p#notice= notice
 
+/ = debug(@animal)
+/ = debug(@animal.birth)
+/ = debug(@animal.death)
+
 %p
   %b Name:
-  = @animal.name
-%p
-  %b Call name:
-  = @animal.call_name
-%p
-  %b Mother:
-  = @animal.mother_id
-%p
-  %b Father:
-  = @animal.father_id
+  = display_name @animal
+  - if life_string @animal
+    = "(#{life_string @animal})"
+- if mother
+  %p
+    %b #{Mother}:
+    = link_to display_name(mother), animal_path(mother)
+    - if life_string mother
+      = "(#{life_string mother})"
+- if father
+  %p
+    %b  #{Father}:
+    = link_to display_name(father), animal_path(father)
+    - if life_string father
+      = "(#{life_string father})"
 %p
   %b Sex:
   = @animal.sex
@@ -21,15 +30,10 @@
 %p
   %b Address:
   = @animal.address_id
-%p
-  %b Birth:
-  = @animal.birth_id
-%p
-  %b Death:
-  = @animal.death_id
-%p
-  %b Import json:
-  = @animal.import_json
+%div
+  %p
+    %b Import json:
+    = @animal.import_json
 
 = link_to 'Edit', edit_animal_path(@animal)
 \|

@@ -49,17 +49,11 @@ ActiveRecord::Schema.define(:version => 20130203225023) do
     t.string   "sex"
     t.integer  "litter_id"
     t.integer  "address_id"
-    t.date     "birth"
-    t.integer  "birth_id"
-    t.date     "death"
-    t.integer  "death_id"
     t.string   "import_json"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "animals", ["birth"], :name => "index_animals_on_birth"
-  add_index "animals", ["death"], :name => "index_animals_on_death"
   add_index "animals", ["father_id"], :name => "index_animals_on_father_id"
   add_index "animals", ["litter_id"], :name => "index_animals_on_litter_id"
   add_index "animals", ["mother_id"], :name => "index_animals_on_mother_id"
@@ -84,13 +78,18 @@ ActiveRecord::Schema.define(:version => 20130203225023) do
   end
 
   create_table "events", :force => true do |t|
-    t.string   "entity_id"
-    t.string   "integer"
+    t.integer  "entity_id"
     t.string   "entity_type"
-    t.string   "string"
-    t.string   "type"
+    t.string   "event_type"
     t.date     "date"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
     t.time     "time"
+    t.integer  "hour"
+    t.integer  "minute"
+    t.integer  "second"
+    t.string   "timezone"
     t.integer  "location_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
