@@ -1,0 +1,10 @@
+!!!5
+%html
+  %head
+    %title Tollerdata
+    %meta{charset:"UTF-8"}
+    = stylesheet_link_tag    "tollerdata/tollerdata", :media => "all"
+    = javascript_include_tag "tollerdata"
+    = csrf_meta_tags
+  %body
+    = yield
