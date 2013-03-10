@@ -1,6 +1,6 @@
 Canidae::Application.routes.draw do
   namespace :tollerdata do
-    resources :searches
+    resources :animals
   end
 
 
@@ -124,6 +124,6 @@ Canidae::Application.routes.draw do
     get :about, to:'home#about'
 
     get :default, to:'home#show'
-    match :verify, to:'home#show'
+    resource :verify
   end
 end

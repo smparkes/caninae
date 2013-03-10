@@ -2,7 +2,13 @@ class AnimalsController < ApplicationController
   # GET /animals
   # GET /animals.json
   def index
-    @animals = Animal.limit(10)
+    if params[:query]
+      q = "%#{params[:query]}%"
+      @animals =
+        Animal.where("name like ? or call_name like ? collate nocase", q, q)
+    else 
+      @animals = Animal.limit(10)
+    end
 
     respond_to do |format|
       format.html # index.html.erb

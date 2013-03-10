@@ -1,0 +1,2 @@
+module Tollerdata::AnimalsHelper
+end

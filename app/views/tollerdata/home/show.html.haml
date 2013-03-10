@@ -32,6 +32,11 @@
 
 %p/
 
+= form_tag tollerdata_animals_path, method:"get" do
+  %p
+    = text_field_tag :query
+    = submit_tag "Search"
+
 = form_for @search do |f|
   %p
     = f.text_field :query
