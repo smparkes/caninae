@@ -32,7 +32,7 @@
 
 %p/
 
-= form_for :search do |f|
+= form_for @search do |f|
   %p
     = f.text_field :query
     = f.submit "Search"
