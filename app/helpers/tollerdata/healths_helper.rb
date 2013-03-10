@@ -1,0 +1,2 @@
+module Tollerdata::HealthsHelper
+end

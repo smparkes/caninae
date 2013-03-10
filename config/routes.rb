@@ -1,4 +1,9 @@
 Canidae::Application.routes.draw do
+  namespace :tollerdata do
+    resources :healths
+  end
+
+
   resources :people
 
 
