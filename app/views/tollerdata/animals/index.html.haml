@@ -1,0 +1,20 @@
+/ saved from url=(0045)http://www.toller-l.org/tollerdata/verify.asp
+- query = params[:query]
+- if query
+  - title "Resolve name: #{query}"
+%p
+  Found the following match(es) for
+  = succeed "." do
+    %strong= query
+
+  Is one of the dogs listed below the dog you were looking for?  If
+  so, click on that dog's name. If not, you can add this dog to the
+  database or submit a new search term.
+
+%p
+  = render @animals, as: :dog
+%p --Or--
+%p
+  = link_to "Click here to add \"#{query}\" to the database as a new dog", new_tollerdata_animal_path, name:query
+%p
+  = link_to "Click here to submit a new search term", tollerdata_root_path

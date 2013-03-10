@@ -39,5 +39,6 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'haml-rails'
+gem 'html2haml'
 
 gem 'awesome_print'

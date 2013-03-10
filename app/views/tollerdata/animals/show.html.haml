@@ -1,0 +1,127 @@
+- json = MultiJson.load @animal.import_json
+- title "Pedigree: #{link_name json}"
+%p
+  %strong
+    %font{:size => "4"}
+      - if !life_string(@animal).blank?
+        #{link_name(json)}&nbsp;(#{life_string @animal})
+      - else
+        #{link_name(json)}
+- if image(json)
+  %br/
+  %center
+    %p
+      = link_to |
+        image_tag(image(json), |
+                  alt:"Photobucket - Video and Image Hosting", |
+                  border:0), |
+        "http://photobucket.com", target:"_blank" |
+%br/
+%table{:border => "0", :width => "100%"}
+  - if @animal.call_name
+    %tr
+      %td{:width => "23%"} Call name:
+      %td{:width => "77%"} "#{@animal.call_name}"
+  - if @animal.sex
+    %tr
+      %td{:width => "23%"} Gender:
+      %td{:width => "77%"}= @animal.sex
+  - if country(json)
+    %tr
+      %td{:width => "23%"} Country of origin:
+      %td{:width => "77%"}= country(json)
+  - if registry(json) || registration_number(json)
+    %tr
+      %td{:width => "23%"} Registration:
+      %td{:width => "77%"} #{[registry(json), registration_number(json)].compact.join(" ")}
+  - if breeder(json)
+    %tr
+      %td{:width => "23%"} Breeder:
+      %td{:width => "77%"}= breeder(json)
+  - if owner(json)
+    %tr
+      %td{:width => "23%"} Owner:
+      %td{:width => "77%"}= owner(json)
+  - if death_reason(json)
+    %tr
+      %td{:width => "23%"} Cause Of Death:
+      %td{:width => "77%"}
+        = death_reason(json)
+        - if addl_death_reason(json)
+          (#{addl_death_reason(json)})
+      %td/
+  - if !web_site(json).blank? && web_site(json) != "http://"
+    %tr
+      %td{:width => "23%"} Web site:
+      %td{:width => "77%"}
+        = link_to web_site(json), web_site(json)
+  - if hips(json)
+    %tr
+      %td{:width => "23%"} Hip clearance:
+      %td{:width => "77%"}= hips(json)
+  - if eyes(json)
+    %tr
+      %td{:width => "23%"} Eye clearance:
+      %td{:width => "77%"}= eyes(json)
+  - if heart(json)
+    %tr
+      %td{:width => "23%"} Heart clearance:
+      %td{:width => "77%"}= heart(json)
+  - if elbows(json)
+    %tr
+      %td{:width => "23%"} Elbow clearance:
+      %td{:width => "77%"}= elbows(json)
+  - if thyroid(json)
+    %tr
+      %td{:width => "23%"} Thyroid clearance:
+      %td{:width => "77%"}= thyroid(json)
+  - if pra_test(json)
+    %tr
+      %td{:width => "23%"} Optigen PRA:
+      %td{:width => "77%"}= pra_test(json)
+  - if cea_test(json)
+    %tr
+      %td{:width => "23%"} CEA:
+      %td{:width => "77%"}= cea_test(json)
+  - if color(json)
+    %tr
+      %td{:width => "23%"} Color:
+      %td{:width => "77%"}= color(json)
+  %tr
+    %td{:width => "23%"} Image linked by:
+    %td{:width => "77%"}
+      = image_user(json)
+      = link_to "[Click to edit image]", edit_tollerdata_animal_image_path(@animal)
+
+%p
+  %font{:size => "3"}
+    %strong Pedigree:
+= render partial:"pedigree", locals:{animals:[@animal], generations:4, link:false}
+%ul
+  %li
+    %font{:size => "2"}
+      %a{:href => "siblings.asp?ID=20561"} Siblings
+  %li
+    %font{:size => "2"}
+      %a{:href => "offspring.asp?ID=20561"} Offspring
+  %li
+    %font{:size => "2"}
+      %a{:href => "editdog.asp?ID=20561"} Edit information
+  %li
+    %font{:size => "2"}
+      %a{:href => "editparent.asp?ID=20561"} Edit parents
+  %li
+    %font{:size => "2"}
+      %a{:href => "fivegen.asp?ID=20561"} View a 5-generation pedigree
+  %li
+    %font{:size => "2"}
+      %a{:href => "verticalpedigree.asp?ID=20561"} View a vertical pedigree
+  %li
+    %font{:size => "2"}
+      %a{:href => "coi.asp?ID=20561"} View genetic information
+  %li
+    %font{:size => "2"}
+      %a{:href => "changehistory.asp?ID=20561"} View change history
+%p
+  = link_to "Return to home page", tollerdata_root_path
+= debug json

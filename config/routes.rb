@@ -1,9 +1,4 @@
 Canidae::Application.routes.draw do
-  namespace :tollerdata do
-    resources :animals
-  end
-
-
   resources :people
 
 
@@ -56,7 +51,6 @@ Canidae::Application.routes.draw do
 
 
   resources :animals
-
 
   resources :events
 
@@ -122,6 +116,10 @@ Canidae::Application.routes.draw do
 
     get :home, to:'home#show'
     get :about, to:'home#about'
+
+    resources :animals do
+      resource :image
+    end
 
     get :default, to:'home#show'
     resource :verify
