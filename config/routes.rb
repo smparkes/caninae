@@ -118,5 +118,6 @@ Canidae::Application.routes.draw do
     match :about, to:'home#about'
 
     match :default, to:'home#show'
+    match :verify, to:'home#show'
   end
 end
