@@ -1,0 +1,2 @@
+class Tollerdata::Search
+end

@@ -32,10 +32,10 @@
 
 %p/
 
-= form_tag animals_path do
+= form_for :search do |f|
   %p
-    = text_field_tag 'name'
-    = submit_tag "Search"
+    = f.text_field :query
+    = f.submit "Search"
 
 %p
   %a{:href => "login.asp?source=default.asp"} Click here to log in

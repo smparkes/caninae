@@ -1,5 +1,5 @@
 (function($){
   $(function(){
-    $("#name").focus();
+    $("#search_query").focus();
   });
 })(jQuery);

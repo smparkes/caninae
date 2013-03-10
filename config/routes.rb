@@ -1,4 +1,9 @@
 Canidae::Application.routes.draw do
+  namespace :tollerdata do
+    resources :searches
+  end
+
+
   resources :people
 
 
@@ -113,11 +118,12 @@ Canidae::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   namespace :tollerdata do
-    root :to => 'home#show'
-    match :home, to:'home#show'
-    match :about, to:'home#about'
+    get '/', :to => 'home#show'
 
-    match :default, to:'home#show'
+    get :home, to:'home#show'
+    get :about, to:'home#about'
+
+    get :default, to:'home#show'
     match :verify, to:'home#show'
   end
 end
