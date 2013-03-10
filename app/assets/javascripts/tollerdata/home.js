@@ -1,5 +1,5 @@
 (function($){
   $(function(){
-    $("#search_query").focus();
+    $("#tollerdata_search_query").focus();
   });
 })(jQuery);

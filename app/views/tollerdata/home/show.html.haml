@@ -32,15 +32,18 @@
 
 %p/
 
-= form_tag tollerdata_animals_path, method:"get" do
-  %p
-    = text_field_tag :query
-    = submit_tag "Search"
+/ tollerdata_search_query
 
-= form_for @search do |f|
-  %p
-    = f.text_field :query
-    = f.submit "Search"
+- if true
+  = form_tag tollerdata_animals_path, method:"get" do
+    %p
+      = text_field_tag :query, nil, id:"tollerdata_search_query"
+      = submit_tag "Search"
+- else
+  = form_for @search do |f|
+    %p
+      = f.text_field :query
+      = f.submit "Search"
 
 %p
   %a{:href => "login.asp?source=default.asp"} Click here to log in
