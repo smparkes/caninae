@@ -114,6 +114,9 @@ Canidae::Application.routes.draw do
 
   namespace :tollerdata do
     root :to => 'home#show'
-    match :about, to:'tollerdata/home#about'
+    match :home, to:'home#show'
+    match :about, to:'home#about'
+
+    match :default, to:'home#show'
   end
 end
