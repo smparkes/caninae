@@ -100,6 +100,9 @@
 %ul
   %li
     %font{:size => "2"}
+      = link_to "Toller Health", tollerdata_animal_health_path(@animal)
+  %li
+    %font{:size => "2"}
       %a{:href => "siblings.asp?ID=20561"} Siblings
   %li
     %font{:size => "2"}
@@ -124,4 +127,4 @@
       %a{:href => "changehistory.asp?ID=20561"} View change history
 %p
   = link_to "Return to home page", tollerdata_root_path
-= debug json
+/ = debug json

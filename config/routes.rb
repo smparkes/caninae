@@ -119,6 +119,7 @@ Canidae::Application.routes.draw do
 
     resources :animals do
       resource :image
+      resource :health
     end
 
     get :default, to:'home#show'
