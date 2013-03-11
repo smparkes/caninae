@@ -100,7 +100,9 @@
 %ul
   %li
     %font{:size => "2"}
-      = link_to "Toller Health", tollerdata_animal_health_path(@animal)
+      = link_to "Toller Health", |
+        tollerdata_animal_health_category_path(@animal, |
+                                               Tollerdata::Health::Category.general_background) |
   %li
     %font{:size => "2"}
       %a{:href => "siblings.asp?ID=20561"} Siblings
@@ -126,5 +128,5 @@
     %font{:size => "2"}
       %a{:href => "changehistory.asp?ID=20561"} View change history
 %p
-  = link_to "Return to home page", tollerdata_root_path
+  = link_to "Return to home page", tollerdata_path
 / = debug json

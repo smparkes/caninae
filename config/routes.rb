@@ -1,9 +1,4 @@
 Canidae::Application.routes.draw do
-  namespace :tollerdata do
-    resources :healths
-  end
-
-
   resources :people
 
 
@@ -124,7 +119,9 @@ Canidae::Application.routes.draw do
 
     resources :animals do
       resource :image
-      resource :health
+      resource :health do
+        resources :categories, to:"health/categories"
+      end
     end
 
     get :default, to:'home#show'

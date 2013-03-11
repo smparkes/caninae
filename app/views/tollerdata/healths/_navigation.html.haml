@@ -1,0 +1,13 @@
+#navigation
+  %ui
+    %li
+      = link_to "Back to Tollerdata", tollerdata_animal_path(animal.id)
+
+    - Tollerdata::Health::Category.all.each do |category|
+      %li
+        - if category.id == current_category.id
+          = category.name
+        - else
+          = link_to category.name, tollerdata_animal_health_category_path(animal, category)
+
+          

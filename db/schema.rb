@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203225023) do
+ActiveRecord::Schema.define(:version => 20130310235452) do
 
   create_table "achievements", :force => true do |t|
     t.integer  "title_id"
@@ -182,6 +182,12 @@ ActiveRecord::Schema.define(:version => 20130203225023) do
     t.boolean  "prefix"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "tollerdata_health_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

@@ -1,0 +1,13 @@
+/ = debug @animal
+/ = debug animal
+/ = debug category
+#THR
+  .title
+    Toller Health Registry
+  .name
+    = link_to animal.name, tollerdata_animal_path(animal.id)
+
+  / = debug animal
+  / = debug category
+  = render partial:"tollerdata/healths/navigation", |
+           locals:{animal:animal, current_category:category} |
