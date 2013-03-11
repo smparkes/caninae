@@ -1,4 +1,4 @@
-class Tollerdata::Health::CategoriesController < ApplicationController
+class Tollerdata::Health::CategoriesController < Tollerdata::TollerdataController
 
   def show
     render("tollerdata/healths/show", locals:{
