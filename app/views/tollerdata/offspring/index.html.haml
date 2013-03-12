@@ -16,13 +16,12 @@ dogs in the database for which this dog is a parent. Dogs that have
 not been entered into the database will not appear in this list.)
 
 %p
-
-  / = debug @animal
+  /= debug @animal
   / = debug @offspring
   - parent = nil
   - @offspring.each do |child|
     - this_parent = nil
-    - if @animal.sex = mother
+    - if @animal.sex == mother
       - this_parent = child.father
     - else
       - this_parent = child.mother
@@ -31,7 +30,10 @@ not been entered into the database will not appear in this list.)
       - parent_json = MultiJson.load parent.import_json
       %p
       %strong
-        By&nbsp;
+        - if @animal.sex == mother
+          By&nbsp;
+        - else 
+          Out of&nbsp;
         %span>= link_to link_name(parent_json), tollerdata_animal_path(parent)
         \:
       %p
