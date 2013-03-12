@@ -16,5 +16,6 @@ class Tollerdata::AnimalsController < Tollerdata::TollerdataController
 
   def show
     @animal = Animal.find params[:id]
+    @pedigree_click = :animal
   end
 end

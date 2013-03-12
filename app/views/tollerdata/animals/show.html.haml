@@ -96,7 +96,7 @@
 %p
   %font{:size => "3"}
     %strong Pedigree:
-= render partial:"pedigree", locals:{animals:[@animal], generations:4, link:false}
+= render partial:"tollerdata/pedigree/pedigree", locals:{animals:[@animal], generations:4, link:false}
 %ul
   %li
     %font{:size => "2"}
@@ -117,7 +117,7 @@
       %a{:href => "editparent.asp?ID=20561"} Edit parents
   %li
     %font{:size => "2"}
-      %a{:href => "fivegen.asp?ID=20561"} View a 5-generation pedigree
+      = link_to "View a 5-generation pedigree", tollerdata_animal_pedigree_path(@animal, 5)
   %li
     %font{:size => "2"}
       %a{:href => "verticalpedigree.asp?ID=20561"} View a vertical pedigree

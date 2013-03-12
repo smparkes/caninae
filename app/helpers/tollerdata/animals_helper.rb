@@ -128,4 +128,21 @@ module Tollerdata::AnimalsHelper
     combine json, "THYROIDREGISTRY", "THYROIDID"
   end
   
+  def longevity animal
+    birth = animal.birth
+    death = animal.death
+    return nil if !death || !birth
+    years = (death.to_epoch - birth.to_epoch)/(365*24*60.0*60.0)
+    int = years.truncate
+    years -= int
+    if years > 2.0/3
+      years = "#{int+1}"
+    elsif years > 1.0/3
+      years = "#{int}.5"
+    else 
+      years = int.to_s
+    end
+    "#{years} years"
+  end
+
 end

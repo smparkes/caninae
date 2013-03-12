@@ -42,3 +42,5 @@ gem 'haml-rails'
 gem 'html2haml'
 
 gem 'awesome_print'
+
+gem 'numbers_and_words'
