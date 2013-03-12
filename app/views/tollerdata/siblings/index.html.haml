@@ -1,0 +1,32 @@
+- json = MultiJson.load @animal.import_json
+- title "Siblings of #{@animal.name}"
+%p
+  %strong
+    %font{:size => "4"}
+      Full siblings of
+      - if !life_string(@animal).blank?
+        #{link_name(json)}&nbsp;(#{life_string @animal})
+      - else
+        = link_name(json)
+%p
+
+(This list may not be comprehensive.  This list only contains those
+dogs in the database which have the same sire and dam as this
+dog. Dogs that have not been entered into the database will not appear
+in this list.)
+
+%p
+  - @siblings.each do |sibling|
+    / = debug sibling
+    - sib_json = MultiJson.load sibling.import_json
+    = link_to link_name(sib_json), tollerdata_animal_path(sibling)
+    - if !life_string(sibling).blank?
+      (#{life_string sibling})
+    - if hips(sib_json)
+      %font{:color => "green"} [#{hips sib_json}]
+    %br/
+
+%p
+  = link_to "Return to #{@animal.name}", tollerdata_animal_path(@animal)
+  %br/
+  = link_to "Return to home page", tollerdata_path

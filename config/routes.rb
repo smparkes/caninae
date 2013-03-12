@@ -118,6 +118,7 @@ Canidae::Application.routes.draw do
     get :about, to:'home#about'
 
     resources :animals do
+      resources :siblings
       resource :image
       resource :health do
         resources :categories, to:"health/categories"

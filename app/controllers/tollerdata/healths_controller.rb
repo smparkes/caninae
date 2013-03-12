@@ -1,4 +1,4 @@
-class Tollerdata::HealthsController < Tollerdata::ApplicationController
+class Tollerdata::HealthsController < Tollerdata::TollerdataController
   def show
     render "show", locals:{
       animal:Animal.find(params[:animal_id]),
