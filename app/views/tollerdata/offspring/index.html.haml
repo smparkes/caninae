@@ -1,0 +1,49 @@
+- json = MultiJson.load @animal.import_json
+- title "Offspring of #{@animal.name}"
+%p
+  %strong
+    %font{:size => "4"}
+      Offspring of
+      - if !life_string(@animal).blank?
+        #{link_name(json)}&nbsp;(#{life_string @animal})
+      - else
+        = link_name(json)
+
+%p
+
+(This list may not be comprehensive.  This list only contains those
+dogs in the database for which this dog is a parent. Dogs that have
+not been entered into the database will not appear in this list.)
+
+%p
+
+  / = debug @animal
+  / = debug @offspring
+  - parent = nil
+  - @offspring.each do |child|
+    - this_parent = nil
+    - if @animal.sex = mother
+      - this_parent = child.father
+    - else
+      - this_parent = child.mother
+    - if parent != this_parent
+      - parent = this_parent
+      - parent_json = MultiJson.load parent.import_json
+      %p
+      %strong
+        By&nbsp;
+        %span>= link_to link_name(parent_json), tollerdata_animal_path(parent)
+        \:
+      %p
+    - child_json = MultiJson.load child.import_json
+    = link_to link_name(child_json), tollerdata_animal_path(child)
+    - if !life_string(child).blank?
+      (#{life_string child})
+    - if hips(child_json)
+      %font{:color => "green"} [#{hips child_json}]
+    %br/
+
+%p
+  = link_to "Return to #{@animal.name}", tollerdata_animal_path(@animal)
+  %br/
+  = link_to "Return to home page", tollerdata_path

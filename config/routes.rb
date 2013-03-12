@@ -119,6 +119,7 @@ Canidae::Application.routes.draw do
 
     resources :animals do
       resources :siblings
+      resources :offspring
       resource :image
       resource :health do
         resources :categories, to:"health/categories"
