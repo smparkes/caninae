@@ -1,3 +1,56 @@
-// Place all the styles related to the tollerdata/animals controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// -*- mode:css -*-
+
+#prototype {
+  display: none;
+}
+
+.above {
+ margin-top: 0.5ex;
+}
+
+.below {
+  margin-bottom: 0.5ex;
+}
+
+.about > hr {
+  margin: 0;
+  // margin-top: 2px;
+  // margin-bottom: 1px;
+  // border-left-style: solid;
+  // border-left-width: 100px;
+}
+
+.about > .hr {
+  width: 100%;
+  height: 1px;
+  background: black;
+}
+
+.about, .parents {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.name, .titles {
+  padding-left: 0.5ex;
+}
+
+.above, .below {
+  border-left-style: solid;
+  border-left-width: 10px;
+}
+
+.above {
+  padding-bottom: 0.25ex;
+}
+
+.below {
+  padding-top: 0.25ex;
+  height: 100%;
+}
+
+.space {
+  min-height: 1ex;
+  border-left-style: solid;
+  border-left-width: 10px;
+}

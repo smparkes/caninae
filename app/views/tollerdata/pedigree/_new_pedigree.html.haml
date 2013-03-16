@@ -1,0 +1,22 @@
+- animals.each do |animal|
+  %div.tr
+    %div.td{style:"width:#{100*1/generations-5}%"}
+      - if animal
+        - json = MultiJson.load animal.import_json
+        - if link
+          = link_to link_name(json), pedigree_path(animal, @pedigree_click, @generations)
+        - else
+          = link_name(json)
+        - if @annotation == :hip && hips(json)
+          %font{color:"green"} [#{hips(json)}]
+        - if @annotation == :longevity && longevity(animal)
+          %font{color:"green"} [#{longevity(animal)}]
+        - if generations > 1
+          %div.td{style:"width:#{100*(1-1.0/generations)+5}%"}
+            - ancestors = [animal.father, animal.mother]
+            / = debug ancestors
+            / = ancestors #{generations-1}
+            = render partial:"tollerdata/pedigree/new_pedigree", locals:{animals:ancestors, |
+                                                 generations:generations-1, |
+                                                 link:true } |
+

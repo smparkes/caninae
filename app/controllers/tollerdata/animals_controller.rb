@@ -17,5 +17,9 @@ class Tollerdata::AnimalsController < Tollerdata::TollerdataController
   def show
     @animal = Animal.find params[:id]
     @pedigree_click = :animal
+    respond_to do |format|
+      format.html
+      format.json { render json:@animal }
+    end
   end
 end

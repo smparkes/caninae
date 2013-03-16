@@ -96,7 +96,25 @@
 %p
   %font{:size => "3"}
     %strong Pedigree:
-= render partial:"tollerdata/pedigree/pedigree", locals:{animals:[@animal], generations:4, link:false}
+- if true
+  #prototype
+    .individual
+      .about
+        .above
+          .name
+        .hr
+        .below
+          .titles
+      .parents
+        .father
+        .space
+        .mother
+
+  .new_pedigree{"data-animal-id" => @animal[:id]}
+
+- if false
+  = render partial:"tollerdata/pedigree/pedigree", locals:{animals:[@animal], generations:4, link:false}
+
 %ul
   %li
     %font{:size => "2"}
