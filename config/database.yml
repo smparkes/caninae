@@ -20,9 +20,9 @@ development:
 # development:
 #   adapter: postgresql
 #   encoding: unicode
-#   database: canidae_development
+#   database: caninae_development
 #   pool: 5
-#   username: canidae
+#   username: caninae
 #   password:
 
 #   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -46,15 +46,15 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: canidae_test
+  database: caninae_test
   pool: 5
-  username: canidae
+  username: caninae
   password:
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: canidae_production
+  database: caninae_production
   pool: 5
-  username: canidae
+  username: caninae
   password:

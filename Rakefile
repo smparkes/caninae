@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Canidae::Application.load_tasks
+Caninae::Application.load_tasks

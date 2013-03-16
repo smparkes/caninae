@@ -1,4 +1,4 @@
-Canidae::Application.routes.draw do
+Caninae::Application.routes.draw do
   resources :people
 
 
