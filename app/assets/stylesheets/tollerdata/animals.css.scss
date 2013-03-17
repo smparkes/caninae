@@ -29,7 +29,7 @@
   display: inline-block;
 }
 
-.name, .titles {
+.above > div, .below > div {
   padding-left: 0.5ex;
 }
 
@@ -51,4 +51,8 @@
   min-height: 1ex;
   border-left-style: solid;
   border-left-width: 10px;
+}
+
+#spinner {
+  cursor: pointer;
 }

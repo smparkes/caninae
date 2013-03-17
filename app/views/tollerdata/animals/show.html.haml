@@ -105,10 +105,31 @@
         .hr
         .below
           .titles
+          .hips
+          .heart
+          .longevity
       .parents
         .father
         .space
         .mother
+
+  .controls
+    %span.generations
+      %span#spinner
+      %span.value
+      Generations
+    %span.hips_button
+      %label
+        %input{type:"checkbox"}
+        Show hip certifications
+    %span.heart_button
+      %label
+        %input{type:"checkbox"}
+        Show heart certifications
+    %span.longevity_button
+      %label
+        %input{type:"checkbox"}
+        Show longevity
 
   .new_pedigree{"data-animal-id" => @animal[:id]}
 
