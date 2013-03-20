@@ -191,21 +191,36 @@
 
   $(function(){
 
-    $("#spinner").spinner({
+    $("#spinner > span").spinner({
+      incremental: false,
+      min: 1,
+      max: 10,
+      start: function(){
+        d("start");
+        d(generations);
+        d($(this).spinner().val());
+      },
       stop: function(){
-        generations = $(this).spinner("value");
+        d("stop");
+        generations = $(this).spinner().val();
+        d(generations);
+
         if (generations < 1) {
           generations = 1;
         }
         if (generations > 8) {
           generations = 8;
         }
-        $.cookie('tollerdata_generations', generations);
-        $(".generations .value").html($(this).spinner("value"));
-      }
-    });
 
-    $("#spinner").spinner("value", generations);
+        $(this).spinner().val(generations);
+        d("s "+$(this).spinner().val());
+        $.cookie('tollerdata_generations', generations);
+        $(".generations .value").html($(this).spinner().val());
+      }
+    }).val(generations);
+
+    // d("v "+generations);
+
     $(".generations .value").html(generations);
 
     div = $(".new_pedigree").first();
@@ -217,7 +232,7 @@
     $(".hips_button input").
       prop("checked", show_hips).
       click(function(){
-        d("clicked");
+        // d("clicked");
         var show_hips = $(this).prop("checked");
         $.cookie('tollerdata_hips', show_hips);
         if (show_hips) {
@@ -230,7 +245,7 @@
     $(".heart_button input").
       prop("checked", show_heart).
       click(function(){
-        d("clicked");
+        // d("clicked");
         var show_heart = $(this).prop("checked");
         $.cookie('tollerdata_heart', show_heart);
         if (show_heart) {
@@ -243,7 +258,7 @@
     $(".longevity_button input").
       prop("checked", show_longevity).
       click(function(){
-        d("clicked");
+        // d("clicked");
         var show_longevity = $(this).prop("checked");
         $.cookie('tollerdata_longevity', show_longevity);
         if (show_longevity) {
