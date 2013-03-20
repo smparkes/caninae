@@ -120,6 +120,8 @@
   }
 
   var render_about = function(div, indi, json) {
+    div.attr("id", "about_"+indi.id);
+
     render_name(div, indi, json);
     render_titles(div, indi, json);
 
@@ -151,20 +153,26 @@
 
     div = div && $(".individual", div).first();
 
+    // div.attr("id", "individual_"+id);
+    $(div).children(".about").attr("id", "about_"+id);
+
     if (generation >= generations) {
       div.children(".parents").hide();
     }
 
-    if (first) {
-      $(div).children(".about").children(".above").css("border-left-color", "transparent");
+    if (true) {
     } else {
-      $(div).children(".about").children(".above").css("border-left-color", "black");
-    }
+      if (first) {
+        $(div).children(".about").children(".above").css("border-left-color", "transparent");
+      } else {
+        $(div).children(".about").children(".above").css("border-left-color", "black");
+      }
     
-    if (last) {
-      $(div).children(".about").children(".below").css("border-left-color", "transparent");
-    } else {
-      $(div).children(".about").children(".below").css("border-left-color", "black");
+      if (last) {
+        $(div).children(".about").children(".below").css("border-left-color", "transparent");
+      } else {
+        $(div).children(".about").children(".below").css("border-left-color", "black");
+      }
     }
 
     $(div).children(".about").css("width", (100*1/(generations-generation+1)-1)+"%");
@@ -186,10 +194,56 @@
                      indi.mother_id, generation+1, false, true);
       }
 
+      // d(div.children(".about").children(".hr"));
+      // d(div.children(".parents").children(".father").children(".about").children(".hr"));
+      // d(div.children(".parents").children(".mother").children(".about").children(".hr"));
+
+      // d($("#about_"+indi.id+" .hr"));
+      // d($("#about_"+indi.father_id+" .hr"));
+
+      /*
+      d({
+        source: "#about_"+indi.id+" .hr",
+        target: "#about_"+indi.father_id+" .hr"
+      });
+      */
+
+      var source = $("#about_"+indi.id+" .hr");
+      var mother = $("#about_"+indi.mother_id+" .hr");
+      var father = $("#about_"+indi.father_id+" .hr");
+
+      if (mother.length > 0) {
+        jsPlumb.connect({
+          source: source,
+          target: mother,
+          anchors:[ "BottomRight", "BottomLeft" ],
+          endpoint: "Blank",
+	  connector:"Straight",
+          paintStyle:{ strokeStyle:"black", lineWidth:1 },
+        });
+      }
+
+      if (father.length > 0) {
+        jsPlumb.connect({
+          source: source,
+          target: father,
+          anchors:[ "RightMiddle", "LeftMiddle" ],
+          endpoint: "Blank",
+	  connector:"Straight",
+          paintStyle:{ strokeStyle:"black", lineWidth:1 },
+        });
+      }
+
+      jsPlumb.repaintEverything();
     });
   }
 
   $(function(){
+    // jsPlumb.setRenderMode(jsPlumb.CANVAS);
+
+    setTimeout(function(){
+      // jsPlumb.repaintEverything();
+    }, 2000);
 
     $("#spinner > span").spinner({
       incremental: false,
