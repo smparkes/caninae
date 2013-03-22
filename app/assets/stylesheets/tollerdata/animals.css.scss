@@ -1,5 +1,11 @@
 // -*- mode:css -*-
 
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 #prototype {
   display: none;
 }
@@ -14,7 +20,7 @@
 
 .about > .hr {
   width: 100%;
-  height: 1px;
+  height: 2px;
   background: black;
 }
 

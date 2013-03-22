@@ -1,6 +1,11 @@
 (function($){
   var d = function() {
-    console.debug.apply(console, arguments);
+    // throw "a fit";
+    if (!console.debug) {
+      console.warn(arguments[0]);
+    } else {
+      console.debug.apply(console, arguments);
+    }
   }
 
   var generations = $.cookie('tollerdata_generations');
@@ -175,8 +180,10 @@
       }
     }
 
-    $(div).children(".about").css("width", (100*1/(generations-generation+1)-1)+"%");
-    $(div).children(".parents").css("width", (100*(1-1/(generations-generation+1))-1)+"%");
+    var offset = 0;
+
+    $(div).children(".about").css("width", (100*1/(generations-generation+1)-offset)+"%");
+    $(div).children(".parents").css("width", (100*(1-1/(generations-generation+1))-offset)+"%");
 
     with_individual(id, function(indi){
       var json = indi.import_json;
@@ -219,7 +226,7 @@
           anchors:[ "BottomRight", "BottomLeft" ],
           endpoint: "Blank",
 	  connector:"Straight",
-          paintStyle:{ strokeStyle:"black", lineWidth:1 },
+          paintStyle:{ strokeStyle:"black", lineWidth:2 },
         });
       }
 
@@ -230,7 +237,7 @@
           anchors:[ "RightMiddle", "LeftMiddle" ],
           endpoint: "Blank",
 	  connector:"Straight",
-          paintStyle:{ strokeStyle:"black", lineWidth:1 },
+          paintStyle:{ strokeStyle:"black", lineWidth:2 },
         });
       }
 
@@ -321,6 +328,7 @@
           $(".longevity").hide();
         }
       }).click().click();
-
+    
+    $(window).resize(jsPlumb.repaintEverything);
   });
 }(jQuery));
