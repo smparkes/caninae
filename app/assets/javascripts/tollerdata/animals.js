@@ -217,10 +217,10 @@
       // d($("#about_"+indi.father_id+" .hr"));
 
       /*
-      d({
+        d({
         source: "#about_"+indi.id+" .hr",
         target: "#about_"+indi.father_id+" .hr"
-      });
+        });
       */
 
       var source = $("#about_"+indi.id+" .hr");
@@ -286,13 +286,13 @@
         $(this).children(".parents").animate({
           width:(max_ratio-ratio)+"%"
         }, duration);
-/*
-        if (ratio < 100) {
+        /*
+          if (ratio < 100) {
           $(this).children(".parents").width((100-ratio)+"%").show();
-        } else {
+          } else {
           $(this).children(".parents").hide();
-        }
-*/
+          }
+        */
       } else {
         // d(ratio);
         $(this).children(".about").width(ratio+"%");
@@ -315,18 +315,22 @@
 
   $(function(){
     // jsPlumb.setRenderMode(jsPlumb.CANVAS);
+    $("#dialog").dialog({
+      autoOpen: false,
+      modal: true,
+    });
 
-    $("#spinner > span").spinner({
+    $("#spinner").spinner({
       incremental: false,
       min: 1,
       max: 10,
-/*
-      start: function(){
+      /*
+        start: function(){
         d("start");
         d(generations);
         d($(this).spinner().val());
-      },
-*/
+        },
+      */
       stop: function(){
         var now = $(this).spinner().val();
 
@@ -342,13 +346,13 @@
         if (now != generations) {
           resize(parseInt(now));
         }
-/*
-        if (now > generations) {
-        } else if (generations > now) {
+        /*
+          if (now > generations) {
+          } else if (generations > now) {
           d($('*[data-generation="'+generations+'"]').length);
           $('*[data-generation="'+generations+'"]').hide();
-        }
-*/
+          }
+        */
 
         // d("stop");
         generations = now;
@@ -357,13 +361,13 @@
         $(this).spinner().val(generations);
         // d("s "+$(this).spinner().val());
         $.cookie('tollerdata_generations', generations);
-        $(".generations .value").html($(this).spinner().val());
+        // $(".generations .value").html($(this).spinner().val());
       }
     }).val(generations);
 
     // d("v "+generations);
 
-    $(".generations .value").html(generations);
+    // $(".generations .value").html(generations);
 
     div = $(".new_pedigree").first();
     id = div && div.data("animal-id");
@@ -420,40 +424,63 @@
     $(".fetch_ofa").on("click", function(){
       var id = $("body > .title").data("animal-id");
       d("fetch ofa "+id);
-      var opts = {
-        hwaccel: true, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-      };
-      $('<div id="modal"></div>').appendTo("body").
-        css("opacity", 0).
-        animate({
-          opacity: 0.5,
-          duration: 500,
-        }, function(){
-          $(this).remove();
-          $("body").spin(false);
+      
+      if (true) {
+        // dialog
+        $("#dialog").
+          html("Fetching OFA results").
+          dialog("open");
+
+        $.ajax({
+          dataType: "json",
+          type: "POST",
+          url: "/tollerdata/animals/"+id+"/clearances/ofa/get",
+          success: function() {
+            $("#dialog").
+              html("OFA results retrieved");
+          },
+          error: function() {
+            $("#dialog").
+              html("Could not retrieve OFA results at this time");
+          },
         });
-      
-      $("body").spin({});
-      
-      $.ajax({
-        dataType: "json",
-        type: "POST",
-        url: "/tollerdata/animals/"+id+"/clearances/ofa/get",
-        complete: function() {
-          $("#modal").animate({
-            opacity: 0,
+        
+      } else {
+        // spinner
+        var opts = {
+          hwaccel: true, // Whether to use hardware acceleration
+          className: 'spinner', // The CSS class to assign to the spinner
+          zIndex: 2e9, // The z-index (defaults to 2000000000)
+          top: 'auto', // Top position relative to parent in px
+          left: 'auto' // Left position relative to parent in px
+        };
+        $('<div id="modal"></div>').appendTo("body").
+          css("opacity", 0).
+          animate({
+            opacity: 0.5,
             duration: 500,
           }, function(){
             $(this).remove();
             $("body").spin(false);
           });
-        }
-      });
-      // $("body").spin(false);
+        
+        $("body").spin({});
+        
+        $.ajax({
+          dataType: "json",
+          type: "POST",
+          url: "/tollerdata/animals/"+id+"/clearances/ofa/get",
+          complete: function() {
+            $("#modal").animate({
+              opacity: 0,
+              duration: 500,
+            }, function(){
+              $(this).remove();
+              $("body").spin(false);
+           });
+          }
+        });
+      }
     });
 
   });

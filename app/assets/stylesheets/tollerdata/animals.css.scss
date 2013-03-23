@@ -118,7 +118,8 @@
 }
 
 #spinner {
-  cursor: pointer;
+  width: 1ex;
+  font-size: 90%;
 }
 
 .above .name span, .fetch_ofa {
@@ -153,6 +154,10 @@ tr.ofa td {
 
 .verified {
   color:blue;
+}
+
+#dialog {
+  text-align:center;
 }
 
 #modal {

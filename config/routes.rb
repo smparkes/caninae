@@ -37,9 +37,6 @@ Caninae::Application.routes.draw do
       resource :health do
         resources :categories, to:"health/categories"
       end
-      resources :clearances do
-        post :get
-      end
     end
 
     get :default, to:'home#show'

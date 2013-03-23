@@ -3,7 +3,8 @@
   %head
     %title= content_for?(:title) ? content_for(:title) : "Tollerdata"
     %meta{charset:"UTF-8"}
-    = stylesheet_link_tag    "tollerdata/tollerdata", :media => "all"
+    = stylesheet_link_tag "tollerdata/tollerdata", :media => "all"
+    = stylesheet_link_tag "http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"
     = javascript_include_tag "tollerdata"
     = csrf_meta_tags
   %body
