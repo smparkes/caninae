@@ -27,7 +27,11 @@
     - if registry(json) || registration_number(json)
       %tr
         %td.key Registration
-        %td.value= [registry(json), registration_number(json)].compact.join(" ")
+        %td.value
+          - if registration_number(json)
+            = registration_number(json)
+          - if registry(json)
+            (#{registry(json)})
     - if breeder(json)
       %tr
         %td.key Breeder
@@ -49,10 +53,11 @@
         %td.value
           = link_to web_site(json), web_site(json)
     = render partial:"tollerdata/clearances/clearance", locals:{condition: :hip, json:json}
-    - if hips(json)
-      %tr
-        %td.key Hip clearance
-        %td.value= hips(json)
+    /
+      - if hips(json)
+        %tr
+          %td.key Hip clearance
+          %td.value= hips(json)
     - if eyes(json)
       %tr
         %td.key Eye clearance

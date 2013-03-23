@@ -50,7 +50,7 @@ module Tollerdata::AnimalsHelper
   end
 
   COUNTRIES = {
-    "US" => "USA",
+    "US" => "United States",
     "FI" => "Finland",
     "CA" => "Canada"
   }

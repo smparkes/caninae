@@ -15,4 +15,6 @@
 //= require jquery-ui
 //= require jquery.cookie.js
 //= require jquery.jsPlumb-1.3.16-all-min.js
+//= require jquery.spin.js
+//= require spin.min.js
 //= require tollerdata/tollerdata.js

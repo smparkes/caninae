@@ -3,7 +3,7 @@
 - if value 
   - registry = clean json[condition.to_s.upcase+"REGISTRY"]
   - key = condition.to_s.capitalize
-  - verified = "verified"
+  - verified = false ? "verified" : ""
   - score = score condition, registry, value
   %tr
     %td.key #{key} clearance
