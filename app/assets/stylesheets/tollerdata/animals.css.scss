@@ -6,6 +6,59 @@
   box-sizing: border-box;
 }
 
+.title {
+  .name {
+    font: {
+      size: 125%;
+      weight: bold;
+    }
+  }
+  margin-bottom: 1ex;
+}
+
+#metadata, #image {
+  vertical-align: middle;
+  display: inline-block;
+  width: 49.5%;
+
+  table {
+    margin-left: 2ex;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .credit {
+    font-size: 90%;
+    width: 100%;
+    text-align: right;
+  }
+
+  td.key {
+    color: #555;
+    whitespace-wrap: nowrap;
+    padding-right: 2ex;
+    font: {
+      size: 90%;
+    }
+  }
+
+}
+
+#image {
+  text-align: center;
+  .container {
+    position: relative;
+    display: inline-block;
+  }
+  .credit {
+    position: absolute;
+    bottom: -2ex;
+    right: 0;
+  }
+}
+
 #prototype {
   display: none;
 }
@@ -66,4 +119,38 @@
 
 #spinner {
   cursor: pointer;
+}
+
+.above .name span, .fetch_ofa {
+  cursor: pointer;
+}
+
+.individual[data-generation="0"] > .about {
+  .above .name span {
+    cursor: default;
+  }
+}
+
+tr.ofa td {
+  padding-top: 2ex;
+}
+
+.title {
+  position:relative;
+}
+
+.title .credit {
+  font-size: 90%;
+  position:absolute;
+  bottom:0;
+  right:0;
+  a:link, a:visited {
+    text-decoration:none;
+    color: #777;
+    font-style: italic;
+  }
+}
+
+.verified {
+  color:blue;
 }

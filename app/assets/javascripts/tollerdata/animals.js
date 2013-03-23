@@ -36,7 +36,7 @@
     // d("get "+id);
     $.ajax({
       dataType: "json",
-      url: "/tollerdata/animals/"+id,
+      url: "/tollerdata/animals/"+id+".json",
       success: function(json){
         callback(json);
       },
@@ -60,7 +60,7 @@
   var render_name = function(div, indi) {
     // d("render "+indi.name);
     // d(div);
-    div.children(".above").children(".name").html(indi.name);
+    $("span", div.children(".above").children(".name")).html(indi.name);
   }
 
   var strip = function(string) {
@@ -125,7 +125,7 @@
   }
 
   var render_titles = function(div, indi, json) {
-    div.children(".below").children(".titles").html(titles(json));
+    $("span", div.children(".below").children(".titles")).html(titles(json));
   }
 
   var render_about = function(div, indi, json) {
@@ -134,9 +134,11 @@
     render_name(div, indi, json);
     render_titles(div, indi, json);
 
-    div.children(".below").children(".hips").html(hips(json));
-    div.children(".below").children(".heart").html(heart(json));
-    div.children(".below").children(".longevity").html(longevity(json));
+    var below = div.children(".below");
+
+    $("span", below.children(".hips")).html(hips(json));    
+    $("span", below.children(".heart")).html(heart(json));    
+    $("span", below.children(".longevity")).html(longevity(json));    
   }
 
   var add_pedigree = function(div, id, generation) {
@@ -165,7 +167,22 @@
 
     // d($(div).data());
 
-    $(div).children(".about").attr("id", "about_"+id);
+    div.children(".about").
+      attr("id", "about_"+id);
+
+    $(".name span", div.children(".about")).
+      on("click", function(){
+        d("click");
+        d($(this).closest(".individual")[0]);
+        var generation = $(this).closest(".individual").data("generation");
+        if (generation > 0) {
+          d(generation);
+          var id = $(this).closest(".about").attr("id");
+          id = id.replace("about_", "");
+          d(id);
+          window.location = id;
+        }
+      });
 
     if (generation >= generations) {
       div.children(".parents").hide();
@@ -392,7 +409,18 @@
           $(".longevity").hide();
         }
       }).click().click();
+
+    $("#image img").css("max-height", $("#metadata").height());
     
-    $(window).resize(jsPlumb.repaintEverything);
+    $(window).resize(function(){
+      $("#image img").css("max-height", $("#metadata").height());
+      jsPlumb.repaintEverything();
+    });
+    
+    $(".fetch_ofa").on("click", function(){
+      var id = $("body > .title").data("animal-id");
+      d("fetch ofa "+id);
+    });
+
   });
 }(jQuery));

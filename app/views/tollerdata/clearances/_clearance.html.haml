@@ -1,0 +1,17 @@
+- id = condition.to_s.upcase+"ID"
+- value = clean json[id]
+- if value 
+  - registry = clean json[condition.to_s.upcase+"REGISTRY"]
+  - key = condition.to_s.capitalize
+  - verified = "verified"
+  - score = score condition, registry, value
+  %tr
+    %td.key #{key} clearance
+    %td.value
+      - if score
+        %span{class:verified}= score
+        - if registry
+          (#{registry} #{value})
+      - else
+        #{value} (#{registry})
+        

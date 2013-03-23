@@ -1,5 +1,25 @@
 module Tollerdata::AnimalsHelper
 
+  def ofa
+    false
+  end
+
+  def score condition, registry, value
+    case [condition, registry.downcase]
+    when [:hip, "ofa"]
+      if m = value.match(/^DTR-\d+([EGF])\d+[MF]-(T|PI|VPI|NOPI)$/)
+        case m[1]
+        when 'E'; "Excellent"
+        when 'G'; "Good"
+        when 'F'; "Fair"
+        end
+      else
+        "nope"
+      end
+    else; nil
+    end
+  end
+
   def image json
     image = json["IMAGE"]
     if image.blank? && @animal.id == 20561
