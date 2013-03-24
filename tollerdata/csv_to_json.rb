@@ -65,8 +65,10 @@ def register dog, tollerdata
 
   return if number.upcase == "UK KC"
   return if number.upcase == "STEVE TUCSOK"
+  return if number.upcase == "UNREGISTERED"
 
   if !number.empty?
+    number.sub! "N.H.S.B.", "NHSB"
     number.sub! %r{^FCI\s+}, ""
     number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
     if !registry || registry.upcase == "FCI" || registry.upcase == "OTHER"
@@ -212,6 +214,10 @@ def register dog, tollerdata
 end
 
 fixes = {
+  26969 => {
+    "REGISTRY" => "ANKC",
+    "REGISTRATIONNUMBER" => "1598574",    
+  },
   29091 => {
     "REGISTRY" => "NHSB",
   },
