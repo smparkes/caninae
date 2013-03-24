@@ -139,7 +139,7 @@ def register dog, tollerdata
         registry = "FKK"
       elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("DK")
         registry = "DKK"
-      elsif "GB".casecmp(country) == 0 && number =~ /^A[FGDEKPHL]\d/i
+      elsif "GB".casecmp(country) == 0 && number =~ /^A[BFGDEKPHL]\d/i
         registry = "KC"
       elsif number.upcase.start_with?("SLRNSR")
         registry = "KZS"
@@ -232,10 +232,28 @@ def register dog, tollerdata
 end
 
 fixes = {
+  1821 => {
+    "REGISTRATIONNUMBER" => "KC U0096079U03",
+  },
+  1568 => {
+    "REGISTRATIONNUMBER" => "NHSB 2.267.375",
+  },
+  1316 => {
+    "REGISTRATIONNUMBER" => nil,
+  },
   517 => {
     "REGISTRY" => "SKG",
   },
   683 => {
+    "REGISTRY" => "SKG",
+  },
+  1074 => {
+    "REGISTRY" => "SKG",
+  },
+  1094 => {
+    "REGISTRY" => "SKG",
+  },
+  1112 => {
     "REGISTRY" => "SKG",
   },
   19971 => {
