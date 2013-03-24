@@ -63,6 +63,9 @@ def register dog, tollerdata
   number = (clean(tollerdata["REGISTRATIONNUMBER"]) || "").gsub('"', "")
   number = (clean(number) || "")
 
+  return if number.upcase == "UK KC"
+  return if number.upcase == "STEVE TUCSOK"
+
   if !number.empty?
     number.sub! %r{^FCI\s+}, ""
     number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
@@ -71,6 +74,9 @@ def register dog, tollerdata
       if number =~ /\bNHSB\b/i
         registry = "NHSB"
         number = clean number.sub("NHSB", "")
+      elsif number =~ %r{^VDH/}
+        registry = "VDH"
+        number = clean number.sub("VDH/", "")
       elsif number.upcase.start_with?("N") &&
           ("NO".casecmp(country) == 0 || "FI".casecmp(country) == 0)
         registry = "NKK"
@@ -87,7 +93,11 @@ def register dog, tollerdata
         number = clean number.sub("ANKC", "")
       elsif number =~ /\bLOF\b/i || number =~ /\bLOF\d/i
         registry = "SCC"
-      elsif (country == "" || country.casecmp("nl") == 0 || country.casecmp("fi") == 0) &&
+      elsif (country == "" ||
+             country.casecmp("nl") == 0 ||
+             country.casecmp("no") == 0 ||
+             country.casecmp("dk") == 0 ||
+             country.casecmp("fi") == 0) &&
           number.upcase =~ %r{^SE?\d+/20[01][0-9]$}
         registry = "SKK"
       elsif number =~ %r{^DKK?[[:space:]]*\d+/20[01][0-9]$}i
@@ -137,7 +147,7 @@ def register dog, tollerdata
       elsif "CZ".casecmp(country) == 0 && number =~ %r{^\d+$}i
         number = "ČLP/NSR/"+number
         registry = "ČMKU"
-      elsif "BE".casecmp(country) == 0 && number =~ %r{^LOSH}i
+      elsif (country == "" || "BE".casecmp(country) == 0) && number =~ %r{^LOSH}i
         registry = "SRSH"
       elsif "BE".casecmp(country) == 0 && number =~ %r{^\d+$}
         number = "LOSH"+number
@@ -202,6 +212,9 @@ def register dog, tollerdata
 end
 
 fixes = {
+  29091 => {
+    "REGISTRY" => "NHSB",
+  },
   30815 => {
     "BIRTHDAY" => 26,
     "BIRTHMONTH" => 12,
@@ -221,6 +234,9 @@ fixes = {
   },
   30515 => {
    "REGISTRATIONNUMBER" => "LOF 158"
+  },
+  28987 => {
+   "REGISTRATIONNUMBER" => "SHSB 647207"
   },
 }
 
