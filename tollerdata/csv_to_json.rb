@@ -68,6 +68,7 @@ def register dog, tollerdata
   return if number.upcase == "UNREGISTERED"
 
   if !number.empty?
+    number.sub! "SLR NSR", "SLRNSR"
     number.sub! "N.H.S.B.", "NHSB"
     number.sub! %r{^FCI\s+}, ""
     number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
@@ -106,7 +107,7 @@ def register dog, tollerdata
         registry = "DKK"
       elsif number.upcase =~ %r{^FIN?\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
         registry = "FKK"
-      elsif number.upcase =~ %r{^NO\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
+      elsif number.upcase =~ %r{^NO?\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
         registry = "NKK"
       # not sure about this ...
       elsif number.upcase =~ %r{^SF\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
@@ -139,7 +140,7 @@ def register dog, tollerdata
         registry = "KZS"
       elsif number.upcase.match %r{^DRC[-\s]}
         registry = "VDH"
-      elsif "AU".casecmp(country) == 0 && number =~ /^[36]1/
+      elsif "AU".casecmp(country) == 0 && number =~ /^[364]1/
         registry = "ANKC"
       elsif "DE".casecmp(country) == 0 && number =~ /^\d{2}-\d{4}$/
         number = "DRC-T "+number
@@ -197,6 +198,7 @@ def register dog, tollerdata
       number.sub! /^(se?)\s+(\d)/i, '\1\2'
     when "NKK";
     when "KZS";
+      number.sub! /SLRNSR\s+/i, '\1-'
     when "VDH";
     # when "UFKC";
     when "DKK";
@@ -248,17 +250,16 @@ fixes = {
 
 first = true
 while line = gets
-  # l = line.dup
-  # line.force_encoding("iso-8859-1").encode!("utf-8")
-  begin
-    # line.force_encoding("utf-8").encode!("utf-8")
-    # p line
-    # line.force_encoding("binary").encode!("utf-8")
-    line.force_encoding("UTF-8").encode("UTF-32LE").encode("UTF-8")
-  rescue Encoding::InvalidByteSequenceError
-    line.force_encoding("iso-8859-1").encode!("utf-8")
+  l = line.dup
+  if false
+    line.force_encoding("windows-1252").encode!("utf-8")
+  else
+    begin
+      line.force_encoding("UTF-8").encode("UTF-32LE").encode("UTF-8")
+    rescue Encoding::InvalidByteSequenceError
+      line.force_encoding("windows-1252").encode!("utf-8")
+    end
   end
-  # p line
   if first
     first = false
     header = line.split(',').map(&:chomp)
@@ -282,7 +283,7 @@ while line = gets
 
   begin
     dog = {}
-    dog[:id] = tollerdata["ID"].to_i
+    id = dog[:id] = tollerdata["ID"].to_i
     dog[:import_json] = MultiJson.dump(tollerdata)
     fixes[dog[:id]] && tollerdata.merge!(fixes[dog[:id]])
     dog[:father_id] = tollerdata["SIREID"].to_i
