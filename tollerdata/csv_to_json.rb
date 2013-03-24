@@ -66,6 +66,7 @@ def register dog, tollerdata
   return if ["UK KC",
              "STEVE TUCSOK",
              "UNREGISTERED" ,
+             "MUDDUS" ,
              "FIN"].include? number.upcase
 
   if !number.empty?
@@ -91,9 +92,9 @@ def register dog, tollerdata
       elsif number =~ /\bFKK\b/i
         registry = "FKK"
         number = clean number.sub("FKK", "")
-      elsif number =~ /\bÖHZB\b/i
+      elsif number =~ /\b[OÖ]HZB\b/i
         registry = "ÖHZB"
-        number = clean number.sub("ÖHZB", "")
+        number = clean number.sub("[OÖ]HZB", "")
       elsif number =~ /\bANKC\b/i || number =~ /\bANKC\d/i
         registry = "ANKC"
         number = clean number.sub("ANKC", "")
@@ -141,7 +142,7 @@ def register dog, tollerdata
         registry = "FKK"
       elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("DK")
         registry = "DKK"
-      elsif "GB".casecmp(country) == 0 && number =~ /^A[DEKPHL]\d/i
+      elsif "GB".casecmp(country) == 0 && number =~ /^A[GDEKPHL]\d/i
         registry = "KC"
       elsif number.upcase.start_with?("SLRNSR")
         registry = "KZS"
@@ -178,6 +179,8 @@ def register dog, tollerdata
         registry = "RKF"
       elsif number =~ /^[23]100/
         registry = "ANKC"
+      elsif number =~ /^VIII-\d+$/
+        registry = "ZKwP"
       end
     end
 
@@ -218,13 +221,16 @@ def register dog, tollerdata
     else; raise [number, registry].inspect
     end
 
-    if number =~ /\s/ && !["VDH", "ÖHZB", "SKG", "SCC"].include?(registry)
+    if number =~ /\s/ && !["VDH", "ÖHZB", "SKG", "SCC", "NHSB"].include?(registry)
       raise [number, registry].inspect
     end
   end
 end
 
 fixes = {
+  20890 => {
+    "REGISTRY" => "NHSB",
+  },
   22888 => {
     "REGISTRATIONNUMBER" => "310017255",    
   },
