@@ -11,8 +11,7 @@ def life_event field, data, animal
   end
 end
 
-if false
-  count = 0
+if true
   Dir[File.join(File.dirname(__FILE__), "..", "tollerdata", "tollerdata", "*")].
     to_a.
     sort {|a, b| a.sub(%r{.*/([^/]+)$}, '\1').to_i <=> b.sub(%r{.*/([^/]+)$}, '\1').to_i}.
@@ -23,15 +22,17 @@ if false
     # ap data
     (animal = Animal.new.tap do |a|
        a.id = data.delete "id"
+
        ["birth", "death"].each do |event|
          life_event event, data, a
        end
+
+       register a, data
+
        a.assign_attributes data
      end).save!
     # ap animal
     # ap animal.birth
-
-    exit if (count -= 1) == 0
   end
 end
 

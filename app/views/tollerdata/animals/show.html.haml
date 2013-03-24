@@ -27,6 +27,17 @@
       %tr
         %td.key Country of origin
         %td.value= country(json)
+    - first_reg = true
+    - @animal.registrations.each do |registration|
+      %tr
+        %td.key
+          - if first_reg
+            Registration
+        %td.value
+          = registration.registration_number
+          - if registration.registry
+            (#{registration.registry})
+      
     - if registry(json) || registration_number(json)
       %tr
         %td.key Registration

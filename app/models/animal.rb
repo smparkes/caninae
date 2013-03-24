@@ -5,6 +5,7 @@ class Animal < ActiveRecord::Base
   has_one :death, as:"entity", class_name:Event, conditions:['event_type = ?', :death]
   has_many :offspring
   has_many :events, as:"entity"
+  has_many :registrations
   attr_accessible :address_id, :birth_id, :call_name, :death_id, :father_id
   attr_accessible :import_json, :litter_id, :mother_id, :name, :sex
 end

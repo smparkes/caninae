@@ -1,10 +1,21 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 
 require 'rubygems'
 require 'bundler'
 Bundler.require
 
+def clean v
+  return nil if !v
+  v = v.
+    sub(/^\s+/, "").
+    sub(/\s+$/, "").
+    gsub(/\s\s+/, " ")
+  v.empty? ? nil : v
+end
+
 def squish dog, field, v
+  return if !v
   v =
     v.
     sub(/^\s+/, "").
@@ -45,45 +56,177 @@ def date dog, field, tollerdata
   dog[field] = date unless date.empty?
 end
 
+def register dog, tollerdata
+  # p [dog, tollerdata]
+  registry = clean tollerdata["REGISTRY"]
+  number = clean (tollerdata["REGISTRATIONNUMBER"] || "").gsub('"', "")
+
+  if number
+    number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
+    if !registry || registry.upcase == "FCI" || registry.upcase == "OTHER"
+      country = clean(tollerdata["COUNTRY"]) || ""
+      if number.upcase.start_with?("N") && "NO".casecmp(country) == 0
+        registry = "NKK"
+      elsif number =~ /\bNHSB\b/i
+        registry = "NHSB"
+        number = clean number.sub("NHSB", "")
+      elsif number =~ /\bFKK\b/i
+        registry = "FKK"
+        number = clean number.sub("FKK", "")
+      elsif number =~ /\bANKC\b/i || number =~ /\bANKC\d/i
+        registry = "ANKC"
+        number = clean number.sub("ANKC", "")
+      elsif number =~ /\bLOF\b/i
+        registry = "SCC"
+        number = clean number.sub("LOF", "")
+      elsif (country == "" || country.casecmp("nl") == 0 || country.casecmp("fi") == 0) &&
+          number.upcase =~ %r{^SE?\d+/20[01][0-9]$}
+        registry = "SKK"
+      elsif country == "" && number.upcase =~ %r{^DK\d+/20[01][0-9]$}
+        registry = "DKK"
+      elsif number.upcase =~ %r{^FIN?\s*\d+/[01][0-9]$}
+        registry = "FKK"
+      elsif "no".casecmp(country) == 0 && number.upcase =~ %r{^\d+/(20)?[01][0-9]$}
+        number = "NO"+number
+        registry = "NKK"
+      elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("SE")
+        registry = "SKK"
+      elsif "SE".casecmp(country) == 0 && number.upcase.start_with?("S")
+        registry = "SKK"
+      elsif "FI".casecmp(country) == 0 && number.upcase.start_with?("FI")
+        registry = "FKK"
+      elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("DK")
+        registry = "DKK"
+      elsif number.upcase.start_with?("SLRNSR")
+        registry = "KZS"
+      elsif number.upcase.start_with?("DRC-T")
+        registry = "VDH"
+      elsif "AU".casecmp(country) == 0 && number =~ /^[36]1/
+        registry = "ANKC"
+      elsif "DE".casecmp(country) == 0 && number =~ /^\d{2}-\d{4}$/
+        number = "DRC-T "+number
+        registry = "VDH"
+      elsif "CZ".casecmp(country) == 0 && number =~ %r{^[CČ]LP/}i
+        registry = "ČMKU"
+      elsif "CZ".casecmp(country) == 0 && number =~ %r{^\d+$}i
+        number = "ČLP/NSR/"+number
+        registry = "ČMKU"
+      elsif "BE".casecmp(country) == 0 && number =~ %r{^LOSH}i
+        registry = "SRSH"
+      elsif "CA".casecmp(country) == 0 && number =~ %r{^[a-z]{2}([\d/])+$}i
+        registry = "CKC"
+      elsif "US".casecmp(country) == 0 && number =~ %r{^[a-z]{2}([\d/])+$}i
+        registry = "AKC"
+      elsif number.sub! %r{^PKR\.}, ""
+        registry = "ZKwP"
+      elsif number.sub! %r{^RKF }, ""
+        registry = "RKF"
+      elsif !registry && number.casecmp("ANKC") == 0
+        number = nil
+      elsif number.upcase == "RKF"
+        number = nil
+      elsif (clean(tollerdata["WEBSITE"]) || "").downcase.end_with? ".ru"
+        registry = "RKF"
+      end
+    end
+
+    return if !number
+
+    case registry.upcase
+    when "SCC"; # Société Centrale Canine
+    when "ZKWP"; # Związek Kynologiczny w Polsce
+    when "RKF";
+    when "SRSH";
+      number.sub!(/^LOSH\s+/, "LOSH")
+    when "FKK";
+      number.sub! /^(fin?)\s+(\d)/i, '\1\2'
+    when "AKC";
+      number.gsub! %r{/}, ""
+      number.gsub! %r{^[a-z][a-z]\s+}i, '\1'
+    when "UKC";
+    when "ANKC";
+      # Remove the ' LR' on litter regs
+      number.sub!(/ lr$/i, '')
+    when "NHSB";
+    when "CKC";
+    when "SKK";
+      number.sub! /^(se?)\s+(\d)/i, '\1\2'
+    when "NKK";
+      p [number, registry]
+    when "KZS";
+    when "VDH";
+    # when "UFKC";
+    when "DKK";
+    when "ČMKU";
+      number = number.sub(%r{^C}, "Č").sub(%r{^c}, "č")
+    else; raise [number, registry].inspect
+    end
+
+    if number =~ /\s/ && !["VDH"].include?(registry)
+      raise [number, registry].inspect
+    end
+  end
+end
+
 fixes = {
   30815 => {
     "BIRTHDAY" => 26,
     "BIRTHMONTH" => 12,
     "BIRTHYEAR" => 2010
-  }
+  },
+  34778 => {
+    "REGISTRATIONNUMBER" => "SE41595/2012"
+  },
 }
 
+first = true
+while line = gets
+  line.force_encoding("iso-8859-1").encode!("utf-8")
+  # p line
+  if first
+    first = false
+    header = line.split(',').map(&:chomp)
+    next
+  end
 
-File.open("tollermaster.csv", "r:iso-8859-1") do |f|
-  count = 0
-  header = f.readline.split(',').map(&:chomp)
-  f.each do |line|
-    values = line.split(",")
-    tollerdata = {}
-    header.each_with_index do |field_name, i|
-      tollerdata[field_name] =
-        values[i].chomp
-    end
-    begin
-      dog = {}
-      dog[:id] = tollerdata["ID"].to_i
-      dog[:import_json] = MultiJson.dump(tollerdata)
-      fixes[dog[:id]] && tollerdata.merge!(fixes[dog[:id]])
-      dog[:father_id] = tollerdata["SIREID"].to_i
-      dog[:mother_id] = tollerdata["DAMID"].to_i
-      squish dog, :name, tollerdata["NAME"]
-      squish dog, :call_name, tollerdata["CALLNAME"]
-      sex dog, tollerdata
-      date dog, :birth, tollerdata
-      date dog, :death, tollerdata
-      puts [dog[:id], (dog[:call_name] || dog[:name])].join(" ")
-      File.write("tollerdata/#{dog[:id]}", MultiJson.dump(dog))
-    rescue SystemExit
-      raise
-    rescue Object => ex
-      ap [ex, tollerdata]
-      raise
-    end
-    exit if (count -= 1) == 0
+  line.gsub!(/&#(\d+);/) {|s| [$1.to_i].pack("U*")}
+
+  while m = /&#(\d+);/.match(line)
+    # raise m.inspect
+    raise [[m[1].to_i].pack("U*")].inspect
+    # raise [m, [m[1]].pack("U")].inspect
+  end
+
+  # elsif m = /&#x([0-9a-fA-F]+);/.match line
+
+  values = line.split(",")
+  tollerdata = {}
+  header.each_with_index do |field_name, i|
+    v = clean values[i].chomp
+    tollerdata[field_name] = v if v
+  end
+  tollerdata.delete "CP1" if tollerdata["CP1"] == "U"
+  tollerdata.delete "JADD" if tollerdata["JADD"] == "U"
+  tollerdata.delete "WEBSITE" if tollerdata["WEBSITE"] == "http://"
+  begin
+    dog = {}
+    dog[:id] = tollerdata["ID"].to_i
+    dog[:import_json] = MultiJson.dump(tollerdata)
+    fixes[dog[:id]] && tollerdata.merge!(fixes[dog[:id]])
+    dog[:father_id] = tollerdata["SIREID"].to_i
+    dog[:mother_id] = tollerdata["DAMID"].to_i
+    squish dog, :name, tollerdata["NAME"]
+    squish dog, :call_name, tollerdata["CALLNAME"]
+    sex dog, tollerdata
+    register dog, tollerdata
+    date dog, :birth, tollerdata
+    date dog, :death, tollerdata
+    puts [dog[:id], (dog[:call_name] || dog[:name])].join(" ")
+    File.write("tollerdata/#{dog[:id]}", MultiJson.dump(dog))
+  rescue SystemExit
+    raise
+  rescue Object => ex
+    ap [ex, tollerdata]
+    raise
   end
 end

@@ -22,25 +22,16 @@ module Tollerdata::AnimalsHelper
 
   def image json
     image = json["IMAGE"]
-    if image.blank? && @animal.id == 20561
-      image = "http://i1275.photobucket.com/albums/y459/aptosca/glori_zps983be6ee.png"
-    end
     image.blank? ? nil : image
   end
 
   def image_user json
     user = clean(json["IMAGEUSER"])
-    if user.blank? && @animal.id == 20561
-      user = "Steven Parkes"
-    end
     user.blank? ? nil : user
   end
 
   def web_site json
     web_site = json["WEBSITE"]
-    if (web_site.blank? || web_site == "http://") && @animal.id == 20561
-      web_site = "http://on.fb.me/ZCWfmg"
-    end
     web_site.blank? ? nil : web_site
   end
 
