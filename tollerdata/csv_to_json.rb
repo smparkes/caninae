@@ -7,10 +7,11 @@ Bundler.require
 
 def clean v
   return nil if !v
+  # p [v.sub(/^[[:space:]]+/, ""), v[0].ord]
   v = v.
-    sub(/^\s+/, "").
-    sub(/\s+$/, "").
-    gsub(/\s\s+/, " ")
+    sub(/^[[:space:]]+/, "").
+    sub(/[[:space:]]+$/, "").
+    gsub(/[[:space:]][[:space:]]+/, " ")
   v.empty? ? nil : v
 end
 
@@ -59,20 +60,28 @@ end
 def register dog, tollerdata
   # p [dog, tollerdata]
   registry = clean tollerdata["REGISTRY"]
-  number = clean (tollerdata["REGISTRATIONNUMBER"] || "").gsub('"', "")
+  number = (clean(tollerdata["REGISTRATIONNUMBER"]) || "").gsub('"', "")
+  number = (clean(number) || "")
 
-  if number
+  if !number.empty?
+    number.sub! %r{^FCI\s+}, ""
     number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
     if !registry || registry.upcase == "FCI" || registry.upcase == "OTHER"
       country = clean(tollerdata["COUNTRY"]) || ""
-      if number.upcase.start_with?("N") && "NO".casecmp(country) == 0
+      if number.upcase.start_with?("N") &&
+          ("NO".casecmp(country) == 0 || "FI".casecmp(country) == 0)
         registry = "NKK"
       elsif number =~ /\bNHSB\b/i
         registry = "NHSB"
         number = clean number.sub("NHSB", "")
+      elsif number =~ /\bSHSB\b/i
+        registry = "SKG"
       elsif number =~ /\bFKK\b/i
         registry = "FKK"
         number = clean number.sub("FKK", "")
+      elsif number =~ /\bÖHZB\b/i
+        registry = "ÖHZB"
+        number = clean number.sub("ÖHZB", "")
       elsif number =~ /\bANKC\b/i || number =~ /\bANKC\d/i
         registry = "ANKC"
         number = clean number.sub("ANKC", "")
@@ -82,12 +91,28 @@ def register dog, tollerdata
       elsif (country == "" || country.casecmp("nl") == 0 || country.casecmp("fi") == 0) &&
           number.upcase =~ %r{^SE?\d+/20[01][0-9]$}
         registry = "SKK"
-      elsif country == "" && number.upcase =~ %r{^DK\d+/20[01][0-9]$}
+      elsif number =~ %r{^DKK?[[:space:]]*\d+/20[01][0-9]$}i
         registry = "DKK"
-      elsif number.upcase =~ %r{^FIN?\s*\d+/[01][0-9]$}
+      elsif number.upcase =~ %r{^FIN?\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
         registry = "FKK"
-      elsif "no".casecmp(country) == 0 && number.upcase =~ %r{^\d+/(20)?[01][0-9]$}
+      elsif number.upcase =~ %r{^NO\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
+        registry = "NKK"
+      # not sure about this ...
+      elsif number.upcase =~ %r{^SF\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
+        registry = "FKK"
+      elsif "no".casecmp(country) == 0 &&
+          number.upcase =~ %r{^\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
         number = "NO"+number
+        registry = "NKK"
+      elsif "se".casecmp(country) == 0 &&
+          number.upcase =~ %r{^\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
+        number = "SE"+number
+        registry = "SKK"
+      elsif "nl".casecmp(country) == 0 && number.upcase =~ %r{^\d+$}
+        registry = "NHSB"
+      elsif "dk".casecmp(country) == 0 &&
+          number.upcase =~ %r{^\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
+        number = "DKK"+number
         registry = "NKK"
       elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("SE")
         registry = "SKK"
@@ -97,9 +122,11 @@ def register dog, tollerdata
         registry = "FKK"
       elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("DK")
         registry = "DKK"
+      elsif "GB".casecmp(country) == 0 && number =~ /^A[PL]/i
+        registry = "KC"
       elsif number.upcase.start_with?("SLRNSR")
         registry = "KZS"
-      elsif number.upcase.start_with?("DRC-T")
+      elsif number.upcase.match %r{^DRC[-\s]}
         registry = "VDH"
       elsif "AU".casecmp(country) == 0 && number =~ /^[36]1/
         registry = "ANKC"
@@ -112,6 +139,9 @@ def register dog, tollerdata
         number = "ČLP/NSR/"+number
         registry = "ČMKU"
       elsif "BE".casecmp(country) == 0 && number =~ %r{^LOSH}i
+        registry = "SRSH"
+      elsif "BE".casecmp(country) == 0 && number =~ %r{^\d+$}
+        number = "LOSH"+number
         registry = "SRSH"
       elsif "CA".casecmp(country) == 0 && number =~ %r{^[a-z]{2}([\d/])+$}i
         registry = "CKC"
@@ -133,6 +163,8 @@ def register dog, tollerdata
     return if !number
 
     case registry.upcase
+    when "KC"; # The Kennel Club (UK)
+    when "SKG"; # The Swiss Kennel Club
     when "SCC"; # Société Centrale Canine
     when "ZKWP"; # Związek Kynologiczny w Polsce
     when "RKF";
@@ -152,17 +184,18 @@ def register dog, tollerdata
     when "SKK";
       number.sub! /^(se?)\s+(\d)/i, '\1\2'
     when "NKK";
-      p [number, registry]
     when "KZS";
     when "VDH";
     # when "UFKC";
     when "DKK";
+      number.sub! /^(dkk?)\s+(\d)/i, '\1\2'
+    when "ÖHZB";
     when "ČMKU";
       number = number.sub(%r{^C}, "Č").sub(%r{^c}, "č")
     else; raise [number, registry].inspect
     end
 
-    if number =~ /\s/ && !["VDH"].include?(registry)
+    if number =~ /\s/ && !["VDH", "ÖHZB", "SKG"].include?(registry)
       raise [number, registry].inspect
     end
   end
@@ -174,14 +207,32 @@ fixes = {
     "BIRTHMONTH" => 12,
     "BIRTHYEAR" => 2010
   },
-  34778 => {
+  31697 => {
+    "REGISTRATIONNUMBER" => "FIN 43307/05"
+  },
+  31703 => {
+    "REGISTRY" => nil
+  },
+  111134778 => {
     "REGISTRATIONNUMBER" => "SE41595/2012"
+  },
+  31260 => {
+    "REGISTRATIONNUMBER" => "SLRNSR-000007"
   },
 }
 
 first = true
 while line = gets
-  line.force_encoding("iso-8859-1").encode!("utf-8")
+  # l = line.dup
+  # line.force_encoding("iso-8859-1").encode!("utf-8")
+  begin
+    # line.force_encoding("utf-8").encode!("utf-8")
+    # p line
+    # line.force_encoding("binary").encode!("utf-8")
+    line.force_encoding("UTF-8").encode("UTF-32LE").encode("UTF-8")
+  rescue Encoding::InvalidByteSequenceError
+    line.force_encoding("iso-8859-1").encode!("utf-8")
+  end
   # p line
   if first
     first = false
@@ -191,23 +242,19 @@ while line = gets
 
   line.gsub!(/&#(\d+);/) {|s| [$1.to_i].pack("U*")}
 
-  while m = /&#(\d+);/.match(line)
-    # raise m.inspect
-    raise [[m[1].to_i].pack("U*")].inspect
-    # raise [m, [m[1]].pack("U")].inspect
-  end
-
-  # elsif m = /&#x([0-9a-fA-F]+);/.match line
-
   values = line.split(",")
   tollerdata = {}
   header.each_with_index do |field_name, i|
     v = clean values[i].chomp
     tollerdata[field_name] = v if v
   end
+
+  next if clean(tollerdata["TESTUSERID"])
+
   tollerdata.delete "CP1" if tollerdata["CP1"] == "U"
   tollerdata.delete "JADD" if tollerdata["JADD"] == "U"
   tollerdata.delete "WEBSITE" if tollerdata["WEBSITE"] == "http://"
+
   begin
     dog = {}
     dog[:id] = tollerdata["ID"].to_i
