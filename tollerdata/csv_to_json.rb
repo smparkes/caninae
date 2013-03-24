@@ -78,6 +78,8 @@ def register dog, tollerdata
     number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
     if !registry || registry.upcase == "FCI" || registry.upcase == "OTHER"
       country = clean(tollerdata["COUNTRY"]) || ""
+      country = "CH" if country == "Switzerland"
+      country = "GB" if country == "U.K."
       if number =~ /\bNHSB\b/i
         registry = "NHSB"
         number = clean number.sub(/NHSB/i, "")
@@ -102,14 +104,7 @@ def register dog, tollerdata
         number = clean number.sub("ANKC", "")
       elsif number =~ /\bLOF\b/i || number =~ /\bLOF\d/i
         registry = "SCC"
-      elsif (country == "" ||
-             country.casecmp("nl") == 0 ||
-             country.casecmp("no") == 0 ||
-             country.casecmp("dk") == 0 ||
-             country.casecmp("fi") == 0) &&
-          number.upcase =~ %r{^SE?\s*\d+/20[01][0-9]$}
-        registry = "SKK"
-      elsif number =~ %r{^DKK?[[:space:]]*\d+/20[01][0-9]$}i
+      elsif number =~ %r{^DKK?[[:space:]]*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}i
         registry = "DKK"
       elsif number.upcase =~ %r{^FIN?\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
         registry = "FKK"
@@ -169,6 +164,8 @@ def register dog, tollerdata
         registry = "CKC"
       elsif "US".casecmp(country) == 0 && number =~ %r{^[a-z]{2}\s*([\d/-])+$}i
         registry = "AKC"
+      elsif "GB".casecmp(country) == 0 && number =~ %r{^[SU]\d+[TU]O[14]$}i
+        registry = "KC"
       elsif number.sub! %r{^PKR\.}, ""
         registry = "ZKwP"
       elsif number.sub! %r{^RKF }, ""
@@ -179,6 +176,11 @@ def register dog, tollerdata
         number = nil
       elsif (clean(tollerdata["WEBSITE"]) || "").downcase.end_with? ".ru"
         registry = "RKF"
+      elsif number =~ /^KC /
+        registry = "KC"
+        number = number.sub(/KC\s+/, "")
+      elsif number.upcase =~ %r{^SE?\s*\d+/(((20)?[01][0-9])|((19)?[5-9][0-9]))$}
+        registry = "SKK"
       elsif number =~ /^[239]100/
         registry = "ANKC"
       elsif number =~ /^VIII-\d+$/
@@ -230,8 +232,11 @@ def register dog, tollerdata
 end
 
 fixes = {
-  19937 => {
-    "REGISTRATIONNUMBER" => nil,
+  517 => {
+    "REGISTRY" => "SKG",
+  },
+  683 => {
+    "REGISTRY" => "SKG",
   },
   19971 => {
     "REGISTRATIONNUMBER" => nil,
