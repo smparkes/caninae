@@ -63,13 +63,16 @@ def register dog, tollerdata
   number = (clean(tollerdata["REGISTRATIONNUMBER"]) || "").gsub('"', "")
   number = (clean(number) || "")
 
-  return if number.upcase == "UK KC"
-  return if number.upcase == "STEVE TUCSOK"
-  return if number.upcase == "UNREGISTERED"
+  return if ["UK KC",
+             "STEVE TUCSOK",
+             "UNREGISTERED" ,
+             "FIN"].include? number.upcase
 
   if !number.empty?
     number.sub! "SLR NSR", "SLRNSR"
+    number.sub! "(DK)", "DK"
     number.sub! "N.H.S.B.", "NHSB"
+    number.sub! /nhsb:/i, "NHSB"
     number.sub! %r{^FCI\s+}, ""
     number.sub! %r{\bNHSB(\d)}i, 'NHSB \1'
     if !registry || registry.upcase == "FCI" || registry.upcase == "OTHER"
@@ -138,13 +141,13 @@ def register dog, tollerdata
         registry = "FKK"
       elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("DK")
         registry = "DKK"
-      elsif "GB".casecmp(country) == 0 && number =~ /^A[EKPHL]\d/i
+      elsif "GB".casecmp(country) == 0 && number =~ /^A[DEKPHL]\d/i
         registry = "KC"
       elsif number.upcase.start_with?("SLRNSR")
         registry = "KZS"
       elsif number.upcase.match %r{^DRC[-\s]}
         registry = "VDH"
-      elsif "AU".casecmp(country) == 0 && number =~ /^[364]1/
+      elsif "AU".casecmp(country) == 0 && number =~ /^[2364]100/
         registry = "ANKC"
       elsif "DE".casecmp(country) == 0 && number =~ /^\d{2}-\d{4}$/
         number = "DRC-T "+number
@@ -173,6 +176,8 @@ def register dog, tollerdata
         number = nil
       elsif (clean(tollerdata["WEBSITE"]) || "").downcase.end_with? ".ru"
         registry = "RKF"
+      elsif number =~ /^[23]100/
+        registry = "ANKC"
       end
     end
 
@@ -220,9 +225,12 @@ def register dog, tollerdata
 end
 
 fixes = {
+  22888 => {
+    "REGISTRATIONNUMBER" => "310017255",    
+  },
   26969 => {
     "REGISTRY" => "ANKC",
-    "REGISTRATIONNUMBER" => "1598574",    
+    "REGISTRATIONNUMBER" => "1598574",
   },
   24178 => {
     "REGISTRATIONNUMBER" => "S16278/2005",
