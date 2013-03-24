@@ -81,17 +81,19 @@ def register dog, tollerdata
       if number =~ /\bNHSB\b/i
         registry = "NHSB"
         number = clean number.sub(/NHSB/i, "")
-      elsif number =~ %r{^VDH/}
+      elsif number =~ %r{^VDH/?\s*}
         registry = "VDH"
-        number = clean number.sub("VDH/", "")
+        number = clean number.sub("VDH/\s*", "")
       elsif number.upcase.start_with?("N") &&
           ("NO".casecmp(country) == 0 || "FI".casecmp(country) == 0)
         registry = "NKK"
-      elsif number =~ /\bSHSB\b/i
+      elsif number =~ /\bSHSB\b/i || number =~ /\bSHSB\d/i
         registry = "SKG"
       elsif number =~ /\bFKK\b/i
         registry = "FKK"
         number = clean number.sub("FKK", "")
+      elsif number =~ /\bDRET\b/i
+        registry = "ÖHZB"
       elsif number =~ /\b[OÖ]HZB\b/i
         registry = "ÖHZB"
         number = clean number.sub("[OÖ]HZB", "")
@@ -142,13 +144,13 @@ def register dog, tollerdata
         registry = "FKK"
       elsif "DK".casecmp(country) == 0 && number.upcase.start_with?("DK")
         registry = "DKK"
-      elsif "GB".casecmp(country) == 0 && number =~ /^A[GDEKPHL]\d/i
+      elsif "GB".casecmp(country) == 0 && number =~ /^A[FGDEKPHL]\d/i
         registry = "KC"
       elsif number.upcase.start_with?("SLRNSR")
         registry = "KZS"
       elsif number.upcase.match %r{^DRC[-\s]}
         registry = "VDH"
-      elsif "AU".casecmp(country) == 0 && number =~ /^[2364]100/
+      elsif "AU".casecmp(country) == 0 && number =~ /^[23649]100/
         registry = "ANKC"
       elsif "DE".casecmp(country) == 0 && number =~ /^\d{2}-\d{4}$/
         number = "DRC-T "+number
@@ -158,14 +160,14 @@ def register dog, tollerdata
       elsif "CZ".casecmp(country) == 0 && number =~ %r{^\d+$}i
         number = "ČLP/NSR/"+number
         registry = "ČMKU"
-      elsif (country == "" || "BE".casecmp(country) == 0) && number =~ %r{^LOSH}i
+      elsif number =~ %r{^LOSH}i
         registry = "SRSH"
       elsif "BE".casecmp(country) == 0 && number =~ %r{^\d+$}
         number = "LOSH"+number
         registry = "SRSH"
       elsif "CA".casecmp(country) == 0 && number =~ %r{^[a-z]{2}([\d/])+$}i
         registry = "CKC"
-      elsif "US".casecmp(country) == 0 && number =~ %r{^[a-z]{2}\s*([\d/])+$}i
+      elsif "US".casecmp(country) == 0 && number =~ %r{^[a-z]{2}\s*([\d/-])+$}i
         registry = "AKC"
       elsif number.sub! %r{^PKR\.}, ""
         registry = "ZKwP"
@@ -177,7 +179,7 @@ def register dog, tollerdata
         number = nil
       elsif (clean(tollerdata["WEBSITE"]) || "").downcase.end_with? ".ru"
         registry = "RKF"
-      elsif number =~ /^[23]100/
+      elsif number =~ /^[239]100/
         registry = "ANKC"
       elsif number =~ /^VIII-\d+$/
         registry = "ZKwP"
@@ -197,7 +199,7 @@ def register dog, tollerdata
     when "FKK";
       number.sub! /^(fin?)\s+(\d)/i, '\1\2'
     when "AKC";
-      number.gsub! %r{/}, ""
+      number.gsub! %r{/-}, ""
       number.gsub! %r{^[a-z][a-z]\s+}i, '\1'
     when "UKC";
     when "ANKC";
@@ -228,8 +230,11 @@ def register dog, tollerdata
 end
 
 fixes = {
-  20890 => {
-    "REGISTRY" => "NHSB",
+  19937 => {
+    "REGISTRATIONNUMBER" => nil,
+  },
+  19971 => {
+    "REGISTRATIONNUMBER" => nil,
   },
   22888 => {
     "REGISTRATIONNUMBER" => "310017255",    
@@ -242,6 +247,9 @@ fixes = {
     "REGISTRATIONNUMBER" => "S16278/2005",
   },
   29091 => {
+    "REGISTRY" => "NHSB",
+  },
+  20890 => {
     "REGISTRY" => "NHSB",
   },
   30815 => {
