@@ -70,6 +70,7 @@ def register dog, tollerdata
              "FIN"].include? number.upcase
 
   if !number.empty?
+    number.sub! /\s+REG\s+/i, " "
     number.sub! "SLR NSR", "SLRNSR"
     number.sub! "(DK)", "DK"
     number.sub! "N.H.S.B.", "NHSB"
@@ -86,14 +87,14 @@ def register dog, tollerdata
       elsif number =~ %r{^VDH/?\s*}
         registry = "VDH"
         number = clean number.sub("VDH/\s*", "")
-      elsif number.upcase.start_with?("N") &&
-          ("NO".casecmp(country) == 0 || "FI".casecmp(country) == 0)
-        registry = "NKK"
       elsif number =~ /\bSHSB\b/i || number =~ /\bSHSB\d/i
         registry = "SKG"
       elsif number =~ /\bFKK\b/i
         registry = "FKK"
         number = clean number.sub("FKK", "")
+      elsif number =~ /\bNKK\b/i
+        registry = "NKK"
+        number = clean number.sub("NKK", "")
       elsif number =~ /\bDRET\b/i
         registry = "ÖHZB"
       elsif number =~ /\b[OÖ]HZB\b/i
@@ -183,7 +184,7 @@ def register dog, tollerdata
         registry = "SKK"
       elsif number =~ /^[239]100/
         registry = "ANKC"
-      elsif number =~ /^VIII-\d+$/
+      elsif number =~ /^VIII-\s*\d+$/
         registry = "ZKwP"
       end
     end
@@ -195,6 +196,7 @@ def register dog, tollerdata
     when "SKG"; # The Swiss Kennel Club
     when "SCC"; # Société Centrale Canine
     when "ZKWP"; # Związek Kynologiczny w Polsce
+      number.sub!(/-\s+/, "-")
     when "RKF";
     when "SRSH";
       number.sub!(/^LOSH\s+/, "LOSH")
@@ -232,6 +234,9 @@ def register dog, tollerdata
 end
 
 fixes = {
+  19937 => {
+    "REGISTRATIONNUMBER" => nil,
+  },
   1821 => {
     "REGISTRATIONNUMBER" => "KC U0096079U03",
   },
